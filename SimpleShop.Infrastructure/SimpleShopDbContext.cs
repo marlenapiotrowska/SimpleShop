@@ -4,7 +4,7 @@ using SimpleShop.Infrastructure.Models;
 
 namespace SimpleShop.Infrastructure
 {
-    public class SimpleShopDbContext : DbContext
+    internal class SimpleShopDbContext : DbContext
     {
         public SimpleShopDbContext(DbContextOptions<SimpleShopDbContext> options)
             : base(options)
@@ -12,13 +12,11 @@ namespace SimpleShop.Infrastructure
         }
 
         public DbSet<Shop> Shops { get; set; }
-        public DbSet<Person> People { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .ApplyConfiguration(new ShopConfiguration())
-                .ApplyConfiguration(new PersonConfiguration())
                 ;
         }
     }

@@ -1,13 +1,13 @@
-using Microsoft.EntityFrameworkCore;
-using SimpleShop.Infrastructure;
+using SimpleShop.Application.Extensions;
+using SimpleShop.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connection = builder.Configuration.GetConnectionString("DBConnection");
-
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<SimpleShopDbContext>(opt => opt.UseSqlServer(connection));
+
+builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddApplication();
 
 var app = builder.Build();
 
