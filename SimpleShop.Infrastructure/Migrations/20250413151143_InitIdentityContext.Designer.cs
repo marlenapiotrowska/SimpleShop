@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SimpleShop.Infrastructure;
 
@@ -11,9 +12,11 @@ using SimpleShop.Infrastructure;
 namespace SimpleShop.Infrastructure.Migrations
 {
     [DbContext(typeof(SimpleShopDbContext))]
-    partial class SimpleShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250413151143_InitIdentityContext")]
+    partial class InitIdentityContext
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SimpleShop.Infrastructure.Configurations;
 using SimpleShop.Infrastructure.Models;
 
 namespace SimpleShop.Infrastructure
 {
-    internal class SimpleShopDbContext : DbContext
+    internal class SimpleShopDbContext : IdentityDbContext
     {
         public SimpleShopDbContext(DbContextOptions<SimpleShopDbContext> options)
             : base(options)
@@ -15,6 +16,8 @@ namespace SimpleShop.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder
                 .ApplyConfiguration(new ShopConfiguration())
                 ;

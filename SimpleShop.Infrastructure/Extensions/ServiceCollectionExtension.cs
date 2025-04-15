@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SimpleShop.Domain.Repositories;
@@ -16,6 +17,9 @@ namespace SimpleShop.Infrastructure.Extensions
 
             services
                 .AddDbContext<SimpleShopDbContext>(opt => opt.UseSqlServer(connection));
+
+            services.AddDefaultIdentity<IdentityUser>()
+                .AddEntityFrameworkStores<SimpleShopDbContext>();
 
             services.AddScoped<IShopRepository, ShopRepository>();
             services.AddTransient<IShopDbFactory, ShopDbFactory>();

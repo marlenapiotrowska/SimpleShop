@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SimpleShop.Application.Shop.Commands.Create;
 using SimpleShop.Application.Shop.Queries.GetAllShops;
@@ -33,6 +34,7 @@ namespace SimpleShop.MVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult Create()
         {
