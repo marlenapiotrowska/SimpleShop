@@ -1,6 +1,6 @@
 ﻿namespace SimpleShop.Application.Shop
 {
-    public class ShopDto
+    public record ShopDto
     {
         public Guid Id { get; init; }
         public string Name { get; init; }

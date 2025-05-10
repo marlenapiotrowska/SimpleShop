@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SimpleShop.Domain.Entities;
 using SimpleShop.Domain.Repositories;
+using SimpleShop.Infrastructure.Exceptions;
 using SimpleShop.Infrastructure.Factories.Interfaces;
 
 namespace SimpleShop.Infrastructure.Repositories
@@ -31,6 +32,25 @@ namespace SimpleShop.Infrastructure.Repositories
             var shopsDb = await _context.Shops.ToListAsync();
 
             return shopsDb.Select(_factory.Create);
+        }
+
+        public async Task<Shop> GetById(Guid shopId)
+        {
+            var shopDb = await _context.Shops.SingleOrDefaultAsync(s => s.Id == shopId)
+                ?? throw new EntityNotFoundException($"There is no shop with id {shopId}");
+
+            return _factory.Create(shopDb);
+        }
+
+        public async Task Update(Shop shop)
+        {
+            var shopDb = await _context.Shops.SingleOrDefaultAsync(s => s.Id == shop.Id)
+                ?? throw new EntityNotFoundException($"There is no shop with id {shop.Id}");
+
+            shopDb.Name = shop.Name;
+            shopDb.Description = shop.Description;
+
+            await _context.SaveChangesAsync();
         }
     }
 }

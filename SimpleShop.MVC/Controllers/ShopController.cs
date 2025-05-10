@@ -2,8 +2,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SimpleShop.Application.Shop.Commands.Create;
+using SimpleShop.Application.Shop.Commands.EditShop;
 using SimpleShop.Application.Shop.Queries.GetAllShops;
+using SimpleShop.Application.Shop.Queries.GetShopById;
 using SimpleShop.MVC.Extensions;
+using SimpleShop.MVC.Factories;
 
 namespace SimpleShop.MVC.Controllers
 {
@@ -11,10 +14,12 @@ namespace SimpleShop.MVC.Controllers
     public class ShopController : Controller
     {
         private readonly IMediator _mediator;
+        private readonly IEditShopCommandFactory _factory;
 
-        public ShopController(IMediator mediator)
+        public ShopController(IMediator mediator, IEditShopCommandFactory factory)
         {
             _mediator = mediator;
+            _factory = factory;
         }
 
         [HttpGet]
@@ -25,6 +30,7 @@ namespace SimpleShop.MVC.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin, Owner")]
         public async Task<IActionResult> Create(CreateShopCommand command)
         {
             await _mediator.Send(command);
@@ -34,8 +40,34 @@ namespace SimpleShop.MVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [Authorize]
+        public async Task<IActionResult> Edit(Guid shopId)
+        {
+            var shopDto = await _mediator.Send(new GetShopByIdQuery(shopId));
+
+            if (!shopDto.IsEditable)
+            {
+                return RedirectToAction("NoAccess", "Home");
+            }
+
+            var model = _factory.Create(shopDto);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditShopCommand command)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(command);
+            }
+
+            await _mediator.Send(command);
+            return RedirectToAction(nameof(Index));
+        }
+
         [HttpGet]
+        [Authorize(Roles = "Admin, Owner")]
         public IActionResult Create()
         {
             return View();

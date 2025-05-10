@@ -1,5 +1,6 @@
 using SimpleShop.Application.Extensions;
 using SimpleShop.Infrastructure.Extensions;
+using SimpleShop.MVC.Factories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
+builder.Services.AddScoped<IEditShopCommandFactory, EditShopCommandFactory>();
 
 var app = builder.Build();
 

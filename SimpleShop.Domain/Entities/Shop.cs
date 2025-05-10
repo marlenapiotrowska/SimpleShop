@@ -21,9 +21,19 @@
         }
 
         public Guid Id { get; }
-        public string Name { get; }
-        public string Description { get; }
+        public string Name { get; private set; }
+        public string Description { get; private set; }
         public DateTime DateCreated { get; }
         public string UserCreatedId { get; }
+
+        public void EditName(string name)
+        {
+            Name = name;
+        }
+
+        public void EditDescription(string description)
+        {
+            Description = description;
+        }
     }
 }
