@@ -2,9 +2,10 @@
 {
     public class ShopDto
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public DateTime DateCreated { get; set; }
+        public Guid Id { get; init; }
+        public string Name { get; init; }
+        public string Description { get; init; }
+        public DateTime DateCreated { get; init; }
+        public bool IsEditable { get; init; }
     }
 }
