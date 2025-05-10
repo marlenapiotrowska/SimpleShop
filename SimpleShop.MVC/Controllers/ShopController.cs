@@ -46,7 +46,7 @@ namespace SimpleShop.MVC.Controllers
 
             if (!shopDto.IsEditable)
             {
-                return RedirectToAction("NoAccess", "Home");
+                return RedirectToAction("NoAccess", "Home", new { shopName = shopDto.Name });
             }
 
             var model = _factory.Create(shopDto);
