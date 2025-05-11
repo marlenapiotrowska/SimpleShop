@@ -22,7 +22,7 @@ namespace SimpleShop.Application.Shop.Commands.Create
         {
             var currentUser = _userContext.GetCurrentUser();
 
-            if (currentUser == null || currentUser.IsInManagingRole)
+            if (currentUser == null || !currentUser.IsInManagingRole)
             {
                 return Unit.Value;
             }

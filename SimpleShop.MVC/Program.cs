@@ -11,6 +11,12 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
 builder.Services.AddScoped<IEditShopCommandFactory, EditShopCommandFactory>();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.AccessDeniedPath = "/Home/NoAccessCreation";
+    options.LoginPath = "/Identity/Account/Login";
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
