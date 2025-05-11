@@ -15,7 +15,7 @@ namespace SimpleShop.Infrastructure.Migrations
                 table: "Shops",
                 type: "nvarchar(450)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: "00000000-0000-0000-0000-000000000000");
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_AspNetUserTokens",
@@ -71,6 +71,14 @@ namespace SimpleShop.Infrastructure.Migrations
                 table: "AspNetUserLogins",
                 columns: new[] { "LoginProvider", "ProviderKey" });
 
+            migrationBuilder.Sql(@"
+                IF NOT EXISTS (SELECT 1 FROM AspNetUsers WHERE Id = '00000000-0000-0000-0000-000000000000')
+                BEGIN
+                    INSERT INTO AspNetUsers (Id, UserName, NormalizedUserName, EmailConfirmed, PasswordHash, SecurityStamp, ConcurrencyStamp, PhoneNumberConfirmed, TwoFactorEnabled, LockoutEnabled, AccessFailedCount)
+                    VALUES ('00000000-0000-0000-0000-000000000000', 'system', 'SYSTEM', 1, '', NEWID(), NEWID(), 0, 0, 0, 0)
+                END
+                ");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Shops_UserCreatedId",
                 table: "Shops",
@@ -83,9 +91,6 @@ namespace SimpleShop.Infrastructure.Migrations
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
-
-            var sql = "UPDATE Shops set UserCreatedId = '00000000-0000-0000-0000-000000000000'";
-            migrationBuilder.Sql(sql);
         }
 
         /// <inheritdoc />
