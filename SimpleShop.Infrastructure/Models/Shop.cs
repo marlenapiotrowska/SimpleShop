@@ -9,6 +9,6 @@ namespace SimpleShop.Infrastructure.Models
         public string Description { get; set; } = string.Empty;
         public DateTime DateCreated { get; set; }
         public string UserCreatedId { get; set; }
-        public IdentityUser? UserCreated { get; set; }
+        public ApplicationUser? UserCreated { get; set; }
     }
 }

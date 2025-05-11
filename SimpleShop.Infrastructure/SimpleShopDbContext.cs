@@ -5,7 +5,7 @@ using SimpleShop.Infrastructure.Models;
 
 namespace SimpleShop.Infrastructure
 {
-    internal class SimpleShopDbContext : IdentityDbContext
+    internal class SimpleShopDbContext : IdentityDbContext<ApplicationUser>
     {
         public SimpleShopDbContext(DbContextOptions<SimpleShopDbContext> options)
             : base(options)
