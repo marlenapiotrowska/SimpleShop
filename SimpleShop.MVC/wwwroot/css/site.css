@@ -41,7 +41,7 @@ body {
     }
 
 .custom-navbar {
-    background-color: #F5FFFA;
+    background-color: #F8F8FF;
     color: #A52A2A;
 }
 
@@ -56,9 +56,33 @@ body {
 .custom-button {
     background-color: #DEB887;
     color: white;
-    padding: 7px 20px;
+    padding: 7px 15px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     text-decoration: none;
+}
+
+a {
+    color: #A52A2A;
+    text-decoration: none;
+}
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+label.control-label {
+    margin-bottom: 10px;
+    display: block;
+    width: 100%;
+    text-align: left;
+}
+
+input.form-control {
+    padding-left: 0.75rem;
+}
+
+.footer-custom {
+    color: #A52A2A;
 }

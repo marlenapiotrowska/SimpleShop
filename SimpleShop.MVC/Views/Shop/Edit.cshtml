@@ -4,9 +4,15 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<head>
+    <meta charset="utf-8" />
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SimpleShop.MVC.styles.css" asp-append-version="true" />
+</head>
 
-<h4>EditShopCommand</h4>
+<h1>Edit shop</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -25,7 +31,7 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group mb-3">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="custom-button"/>
             </div>
         </form>
     </div>
