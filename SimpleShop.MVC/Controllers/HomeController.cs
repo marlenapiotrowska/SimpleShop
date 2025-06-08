@@ -18,6 +18,17 @@ public class HomeController : Controller
         return View();
     }
 
+    public IActionResult NoAccess(string shopName)
+    {
+        ViewBag.ShopName = shopName;
+        return View();
+    }
+
+    public IActionResult NoAccessCreation()
+    {
+        return View();
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

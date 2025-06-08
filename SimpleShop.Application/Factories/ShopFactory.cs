@@ -7,20 +7,22 @@ namespace SimpleShop.Application.Factories
 {
     internal class ShopFactory : IShopFactory
     {
-        public ShopEntity Create(ShopDto shop)
+        public ShopEntity Create(ShopDto shop, string userId)
         {
             return new ShopEntity(
                 shop.Id,
                 shop.Name,
                 shop.Description,
-                shop.DateCreated);
+                shop.DateCreated,
+                userId);
         }
 
-        public ShopEntity CreateNew(CreateShopCommand shop)
+        public ShopEntity CreateNew(CreateShopCommand shop, string userId)
         {
             return new ShopEntity(
                 shop.Name,
-                shop.Description);
+                shop.Description,
+                userId);
         }
     }
 }

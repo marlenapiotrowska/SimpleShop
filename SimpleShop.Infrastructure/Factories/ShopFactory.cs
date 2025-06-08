@@ -12,7 +12,8 @@ namespace SimpleShop.Infrastructure.Factories
                 shop.Id,
                 shop.Name,
                 shop.Description,
-                shop.DateCreated);
+                shop.DateCreated,
+                shop.UserCreatedId);
         }
     }
 }

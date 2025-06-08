@@ -194,6 +194,14 @@ namespace SimpleShop.Infrastructure.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            var sql = "INSERT INTO AspNetRoles(Id, Name, NormalizedName, ConcurrencyStamp) " +
+                "VALUES " +
+                "(NEWID(), 'Admin', 'ADMIN', NEWID()), " +
+                "(NEWID(), 'Owner', 'OWNER', NEWID()), " +
+                "(NEWID(), 'Employee', 'EMPLOYEE', NEWID())";
+
+            migrationBuilder.Sql(sql);
         }
 
         /// <inheritdoc />

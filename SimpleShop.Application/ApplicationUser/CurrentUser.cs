@@ -2,15 +2,24 @@
 {
     public class CurrentUser
     {
-        public CurrentUser(string id, string email, IEnumerable<string> roles)
+        private static readonly string _adminRole = "Admin";
+        private static readonly string _ownerRole = "Owner";
+
+        public CurrentUser(string id, string name, string email, IEnumerable<string> roles)
         {
             Id = id;
+            Name = name;
             Email = email;
             Roles = roles;
         }
 
-        public string Id { get; set; }
-        public string Email { get; set; }
+        public string Id { get; }
+        public string Name { get; }
+        public string Email { get; }
         public IEnumerable<string> Roles { get; }
+
+        public bool IsInManagingRole
+            => Roles.Contains(_adminRole) || 
+            Roles.Contains(_ownerRole);
     }
 }

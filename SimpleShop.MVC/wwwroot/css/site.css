@@ -19,6 +19,7 @@ html {
 
 body {
     background-color: #FAF0E6;
+    color: #A52A2A;
     margin-bottom: 60px;
 }
 
@@ -29,4 +30,59 @@ body {
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
     text-align: start;
+}
+
+.navbar .nav-link {
+    color: #A52A2A !important;
+}
+
+    .navbar .nav-link:hover {
+        color: #A52A2A !important;
+    }
+
+.custom-navbar {
+    background-color: #F8F8FF;
+    color: #A52A2A;
+}
+
+    .custom-navbar .navbar-nav .nav-link {
+        color: #A52A2A;
+    }
+
+    .custom-navbar .navbar-brand {
+        color: #A52A2A;
+    }
+
+.custom-button {
+    background-color: #DEB887;
+    color: white;
+    padding: 7px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+a {
+    color: #A52A2A;
+    text-decoration: none;
+}
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+label.control-label {
+    margin-bottom: 10px;
+    display: block;
+    width: 100%;
+    text-align: left;
+}
+
+input.form-control {
+    padding-left: 0.75rem;
+}
+
+.footer-custom {
+    color: #A52A2A;
 }

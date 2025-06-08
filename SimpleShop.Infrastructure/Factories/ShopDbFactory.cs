@@ -13,7 +13,8 @@ namespace SimpleShop.Infrastructure.Factories
                 Id = shop.Id,
                 Name = shop.Name,
                 Description = shop.Description,
-                DateCreated = shop.DateCreated
+                DateCreated = shop.DateCreated,
+                UserCreatedId = shop.UserCreatedId
             };
         }
     }

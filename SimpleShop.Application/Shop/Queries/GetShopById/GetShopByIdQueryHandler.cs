@@ -4,29 +4,29 @@ using SimpleShop.Application.Exceptions;
 using SimpleShop.Application.Factories.Interfaces;
 using SimpleShop.Domain.Repositories;
 
-namespace SimpleShop.Application.Shop.Queries.GetAllShops
+namespace SimpleShop.Application.Shop.Queries.GetShopById
 {
-    internal class GetAllShopsQueryHandler : IRequestHandler<GetAllShopsQuery, IEnumerable<ShopDto>>
+    public class GetShopByIdQueryHandler : IRequestHandler<GetShopByIdQuery, ShopDto>
     {
         private readonly IShopRepository _repository;
         private readonly IShopDtoFactory _factory;
         private readonly IUserContext _userContext;
 
-        public GetAllShopsQueryHandler(IShopRepository repository, IShopDtoFactory factory, IUserContext userContext)
+        public GetShopByIdQueryHandler(IShopRepository repository, IShopDtoFactory factory, IUserContext userContext)
         {
             _repository = repository;
             _factory = factory;
             _userContext = userContext;
         }
 
-        public async Task<IEnumerable<ShopDto>> Handle(GetAllShopsQuery request, CancellationToken cancellationToken)
+        public async Task<ShopDto> Handle(GetShopByIdQuery request, CancellationToken cancellationToken)
         {
             var currentUser = _userContext.GetCurrentUser()
                 ?? throw new UserNotFoundException();
 
-            var shops = await _repository.GetAll();
+            var shop = await _repository.GetById(request.ShopId);
 
-            return shops.Select(shop => _factory.Create(shop, currentUser.Id));
+            return _factory.Create(shop, currentUser.Id);
         }
     }
 }
