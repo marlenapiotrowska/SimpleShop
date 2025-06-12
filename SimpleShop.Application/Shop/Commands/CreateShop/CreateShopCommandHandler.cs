@@ -1,9 +1,10 @@
 ﻿using MediatR;
 using SimpleShop.Application.ApplicationUser;
 using SimpleShop.Application.Factories.Interfaces;
+using SimpleShop.Application.Shop.Commands.CreateShop;
 using SimpleShop.Domain.Repositories;
 
-namespace SimpleShop.Application.Shop.Commands.Create
+namespace SimpleShop.Application.Shop.Commands.CreateShop
 {
     public class CreateShopCommandHandler : IRequestHandler<CreateShopCommand>
     {

@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SimpleShop.Application.Shop.Commands.Create;
+using SimpleShop.Application.Shop.Commands.CreateShop;
 using SimpleShop.Application.Shop.Commands.EditShop;
 using SimpleShop.Application.Shop.Queries.GetAllShops;
 using SimpleShop.Application.Shop.Queries.GetShopById;
@@ -33,10 +33,14 @@ namespace SimpleShop.MVC.Controllers
         [Authorize(Roles = "Admin, Owner")]
         public async Task<IActionResult> Create(CreateShopCommand command)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(command);
+            }
+
             await _mediator.Send(command);
 
             this.SetNotification("success", $"Created shop: {command.Name}");
-
             return RedirectToAction(nameof(Index));
         }
 

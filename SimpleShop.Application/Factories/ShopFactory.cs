@@ -1,6 +1,6 @@
 ﻿using SimpleShop.Application.Factories.Interfaces;
 using SimpleShop.Application.Shop;
-using SimpleShop.Application.Shop.Commands.Create;
+using SimpleShop.Application.Shop.Commands.CreateShop;
 using ShopEntity = SimpleShop.Domain.Entities.Shop;
 
 namespace SimpleShop.Application.Factories
