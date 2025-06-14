@@ -42,6 +42,24 @@ namespace SimpleShop.Infrastructure.Repositories
             return _factory.Create(shopDb);
         }
 
+        public async Task<Shop?> GetByNameAsync(string name)
+        {
+            var shopDb = await _context.Shops.SingleOrDefaultAsync(s => s.Name.ToLower() == name.ToLower());
+
+            return shopDb == null 
+                ? null
+                : _factory.Create(shopDb);
+        }
+
+        public async Task<Shop?> GetByDescriptionAsync(string description)
+        {
+            var shopDb = await _context.Shops.SingleOrDefaultAsync(s => s.Description.ToLower() == description.ToLower());
+
+            return shopDb == null
+                ? null
+                : _factory.Create(shopDb);
+        }
+
         public async Task Update(Shop shop)
         {
             var shopDb = await _context.Shops.SingleOrDefaultAsync(s => s.Id == shop.Id)

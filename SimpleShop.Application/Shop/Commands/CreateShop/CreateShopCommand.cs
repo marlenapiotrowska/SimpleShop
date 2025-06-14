@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace SimpleShop.Application.Shop.Commands.Create
+namespace SimpleShop.Application.Shop.Commands.CreateShop
 {
     public record CreateShopCommand : IRequest
     {

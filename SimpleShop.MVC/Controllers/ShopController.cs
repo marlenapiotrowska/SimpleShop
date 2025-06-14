@@ -1,12 +1,13 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SimpleShop.Application.Shop.Commands.Create;
+using SimpleShop.Application.Shop.Commands.CreateShop;
 using SimpleShop.Application.Shop.Commands.EditShop;
 using SimpleShop.Application.Shop.Queries.GetAllShops;
 using SimpleShop.Application.Shop.Queries.GetShopById;
 using SimpleShop.MVC.Extensions;
 using SimpleShop.MVC.Factories;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace SimpleShop.MVC.Controllers
 {
@@ -33,10 +34,14 @@ namespace SimpleShop.MVC.Controllers
         [Authorize(Roles = "Admin, Owner")]
         public async Task<IActionResult> Create(CreateShopCommand command)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(command);
+            }
+
             await _mediator.Send(command);
 
             this.SetNotification("success", $"Created shop: {command.Name}");
-
             return RedirectToAction(nameof(Index));
         }
 
@@ -50,7 +55,6 @@ namespace SimpleShop.MVC.Controllers
             }
 
             var model = _factory.Create(shopDto);
-
             return View(model);
         }
 

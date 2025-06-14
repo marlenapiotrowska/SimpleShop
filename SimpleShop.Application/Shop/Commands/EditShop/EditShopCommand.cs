@@ -1,17 +1,11 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using SimpleShop.Application.Shop.Commands.CreateShop;
 
 namespace SimpleShop.Application.Shop.Commands.EditShop
 {
-    public record EditShopCommand : IRequest
+    public record EditShopCommand : CreateShopCommand, IRequest
     {
-        [ValidateNever]
         public Guid Id { get; set; }
-
-        [ValidateNever]
         public bool IsEditable { get; set; }
-
-        public string Name { get; set; }
-        public string Description { get; set; }
     }
 }
