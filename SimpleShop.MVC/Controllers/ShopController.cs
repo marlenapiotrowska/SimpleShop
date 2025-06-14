@@ -7,6 +7,7 @@ using SimpleShop.Application.Shop.Queries.GetAllShops;
 using SimpleShop.Application.Shop.Queries.GetShopById;
 using SimpleShop.MVC.Extensions;
 using SimpleShop.MVC.Factories;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace SimpleShop.MVC.Controllers
 {
@@ -54,7 +55,6 @@ namespace SimpleShop.MVC.Controllers
             }
 
             var model = _factory.Create(shopDto);
-
             return View(model);
         }
 
