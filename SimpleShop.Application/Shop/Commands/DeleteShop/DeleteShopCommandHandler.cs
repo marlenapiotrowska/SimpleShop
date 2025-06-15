@@ -3,20 +3,20 @@ using SimpleShop.Application.ApplicationUser;
 using SimpleShop.Application.Exceptions;
 using SimpleShop.Domain.Repositories;
 
-namespace SimpleShop.Application.Shop.Commands.EditShop
+namespace SimpleShop.Application.Shop.Commands.DeleteShop
 {
-    internal class EditShopCommandHandler : IRequestHandler<EditShopCommand>
+    public class DeleteShopCommandHandler : IRequestHandler<DeleteShopCommand>
     {
-        private readonly IUserContext _userContext;
         private readonly IShopRepository _repository;
+        private readonly IUserContext _userContext;
 
-        public EditShopCommandHandler(IUserContext userContext, IShopRepository repository)
+        public DeleteShopCommandHandler(IShopRepository repository, IUserContext userContext)
         {
-            _userContext = userContext;
             _repository = repository;
+            _userContext = userContext;
         }
-        
-        public async Task<Unit> Handle(EditShopCommand request, CancellationToken cancellationToken)
+
+        public async Task<Unit> Handle(DeleteShopCommand request, CancellationToken cancellationToken)
         {
             var currentUser = _userContext.GetCurrentUser()
                 ?? throw new UserNotFoundException();
@@ -28,10 +28,7 @@ namespace SimpleShop.Application.Shop.Commands.EditShop
                 throw new ShopNotEditableException(shop.Name, currentUser.Name);
             }
 
-            shop.EditName(request.Name);
-            shop.EditDescription(request.Description);
-
-            await _repository.UpdateAsync(shop);
+            await _repository.DeleteAsync(shop);
 
             return Unit.Value;
         }

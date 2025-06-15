@@ -1,7 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SimpleShop.Application.Shop;
 using SimpleShop.Application.Shop.Commands.CreateShop;
+using SimpleShop.Application.Shop.Commands.DeleteShop;
 using SimpleShop.Application.Shop.Commands.EditShop;
 using SimpleShop.Application.Shop.Queries.GetAllShops;
 using SimpleShop.Application.Shop.Queries.GetShopById;
@@ -47,14 +49,27 @@ namespace SimpleShop.MVC.Controllers
 
         public async Task<IActionResult> Edit(Guid shopId)
         {
-            var shopDto = await _mediator.Send(new GetShopByIdQuery(shopId));
+            var (shop, redirect) = await TryGetShopOrRedirect(shopId);
 
-            if (!shopDto.IsEditable)
+            if (redirect != null)
             {
-                return RedirectToAction("NoAccess", "Home", new { shopName = shopDto.Name });
+                return redirect;
             }
 
-            var model = _factory.Create(shopDto);
+            var model = _factory.Create(shop);
+            return View(model);
+        }
+
+        public async Task<IActionResult> Delete(Guid shopId)
+        {
+            var (shop, redirect) = await TryGetShopOrRedirect(shopId);
+
+            if (redirect != null)
+            {
+                return redirect;
+            }
+
+            var model = _factory.Create(shop);
             return View(model);
         }
 
@@ -70,11 +85,30 @@ namespace SimpleShop.MVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Delete(DeleteShopCommand command)
+        {
+            await _mediator.Send(command);
+            return RedirectToAction(nameof(Index));
+        }
+
         [HttpGet]
         [Authorize(Roles = "Admin, Owner")]
         public IActionResult Create()
         {
             return View();
+        }
+
+        private async Task<(ShopDto? Shop, IActionResult? Redirect)> TryGetShopOrRedirect(Guid shopId)
+        {
+            var shop = await _mediator.Send(new GetShopByIdQuery(shopId));
+
+            if (!shop.IsEditable)
+            {
+                return (null, RedirectToAction("NoAccess", "Home", new { shopName = shop.Name }));
+            }
+
+            return (shop, null);
         }
     }
 }
