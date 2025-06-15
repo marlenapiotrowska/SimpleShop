@@ -1,13 +1,14 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SimpleShop.Application.Shop;
 using SimpleShop.Application.Shop.Commands.CreateShop;
+using SimpleShop.Application.Shop.Commands.DeleteShop;
 using SimpleShop.Application.Shop.Commands.EditShop;
 using SimpleShop.Application.Shop.Queries.GetAllShops;
 using SimpleShop.Application.Shop.Queries.GetShopById;
 using SimpleShop.MVC.Extensions;
 using SimpleShop.MVC.Factories;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace SimpleShop.MVC.Controllers
 {
@@ -15,12 +16,14 @@ namespace SimpleShop.MVC.Controllers
     public class ShopController : Controller
     {
         private readonly IMediator _mediator;
-        private readonly IEditShopCommandFactory _factory;
+        private readonly IEditShopCommandFactory _editFactory;
+        private readonly IDeleteShopCommandFactory _deleteFactory;
 
-        public ShopController(IMediator mediator, IEditShopCommandFactory factory)
+        public ShopController(IMediator mediator, IEditShopCommandFactory editFactory, IDeleteShopCommandFactory deleteFactory)
         {
             _mediator = mediator;
-            _factory = factory;
+            _editFactory = editFactory;
+            _deleteFactory = deleteFactory;
         }
 
         [HttpGet]
@@ -47,14 +50,27 @@ namespace SimpleShop.MVC.Controllers
 
         public async Task<IActionResult> Edit(Guid shopId)
         {
-            var shopDto = await _mediator.Send(new GetShopByIdQuery(shopId));
+            var (shop, redirect) = await TryGetShopOrRedirect(shopId);
 
-            if (!shopDto.IsEditable)
+            if (redirect != null)
             {
-                return RedirectToAction("NoAccess", "Home", new { shopName = shopDto.Name });
+                return redirect;
             }
 
-            var model = _factory.Create(shopDto);
+            var model = _editFactory.Create(shop);
+            return View(model);
+        }
+
+        public async Task<IActionResult> Delete(Guid shopId)
+        {
+            var (shop, redirect) = await TryGetShopOrRedirect(shopId);
+
+            if (redirect != null)
+            {
+                return redirect;
+            }
+
+            var model = _deleteFactory.Create(shop);
             return View(model);
         }
 
@@ -70,11 +86,30 @@ namespace SimpleShop.MVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Delete(DeleteShopCommand command)
+        {
+            await _mediator.Send(command);
+            return RedirectToAction(nameof(Index));
+        }
+
         [HttpGet]
         [Authorize(Roles = "Admin, Owner")]
         public IActionResult Create()
         {
             return View();
+        }
+
+        private async Task<(ShopDto? Shop, IActionResult? Redirect)> TryGetShopOrRedirect(Guid shopId)
+        {
+            var shop = await _mediator.Send(new GetShopByIdQuery(shopId));
+
+            if (!shop.IsEditable)
+            {
+                return (null, RedirectToAction("NoAccess", "Home", new { shopName = shop.Name }));
+            }
+
+            return (shop, null);
         }
     }
 }

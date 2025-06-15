@@ -21,6 +21,7 @@
                 @if (item.IsEditable)
                 {
                     <a class="custom-button" asp-controller="Shop" asp-action="Edit" asp-route-shopid="@item.Id">Edit</a>
+                    <a class="custom-button" asp-controller="Shop" asp-action="Delete" asp-route-shopid="@item.Id">Delete</a>
                 }
             </div>
         </div>

@@ -34,7 +34,7 @@ namespace SimpleShop.Infrastructure.Repositories
             return shopsDb.Select(_factory.Create);
         }
 
-        public async Task<Shop> GetById(Guid shopId)
+        public async Task<Shop> GetByIdAsync(Guid shopId)
         {
             var shopDb = await _context.Shops.SingleOrDefaultAsync(s => s.Id == shopId)
                 ?? throw new EntityNotFoundException($"There is no shop with id {shopId}");
@@ -44,7 +44,8 @@ namespace SimpleShop.Infrastructure.Repositories
 
         public async Task<Shop?> GetByNameAsync(string name)
         {
-            var shopDb = await _context.Shops.SingleOrDefaultAsync(s => s.Name.ToLower() == name.ToLower());
+            var shopDb = await _context.Shops
+                .SingleOrDefaultAsync(s => s.Name.ToLower() == name.ToLower());
 
             return shopDb == null 
                 ? null
@@ -53,20 +54,31 @@ namespace SimpleShop.Infrastructure.Repositories
 
         public async Task<Shop?> GetByDescriptionAsync(string description)
         {
-            var shopDb = await _context.Shops.SingleOrDefaultAsync(s => s.Description.ToLower() == description.ToLower());
+            var shopDb = await _context.Shops
+                .SingleOrDefaultAsync(s => s.Description.ToLower() == description.ToLower());
 
             return shopDb == null
                 ? null
                 : _factory.Create(shopDb);
         }
 
-        public async Task Update(Shop shop)
+        public async Task UpdateAsync(Shop shop)
         {
             var shopDb = await _context.Shops.SingleOrDefaultAsync(s => s.Id == shop.Id)
                 ?? throw new EntityNotFoundException($"There is no shop with id {shop.Id}");
 
             shopDb.Name = shop.Name;
             shopDb.Description = shop.Description;
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(Shop shop)
+        {
+            var shopDb = await _context.Shops.SingleOrDefaultAsync(s => s.Id == shop.Id)
+                ?? throw new EntityNotFoundException($"There is no shop with id {shop.Id}");
+        
+            _context.Remove(shopDb);
 
             await _context.SaveChangesAsync();
         }
