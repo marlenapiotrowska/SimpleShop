@@ -44,7 +44,7 @@ namespace SimpleShop.MVC.Controllers
 
             await _mediator.Send(command);
 
-            this.SetNotification("success", $"Created shop: {command.Name}");
+            this.SetNotification("success", $"Created shop: {command.Name}({command.Description})");
             return RedirectToAction(nameof(Index));
         }
 
@@ -83,6 +83,8 @@ namespace SimpleShop.MVC.Controllers
             }
 
             await _mediator.Send(command);
+
+            this.SetNotification("success", $"Edited shop: {command.Name}({command.Description})");
             return RedirectToAction(nameof(Index));
         }
 
@@ -90,6 +92,8 @@ namespace SimpleShop.MVC.Controllers
         public async Task<IActionResult> Delete(DeleteShopCommand command)
         {
             await _mediator.Send(command);
+
+            this.SetNotification("success", $"Deleted shop: {command.Name}({command.Description})");
             return RedirectToAction(nameof(Index));
         }
 

@@ -63,14 +63,27 @@ body {
     text-decoration: none;
 }
 
+.custom-input {
+    width: 300px;
+    border: 2px solid #ccc;
+    padding: 8px;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.2s ease-in-out;
+}
+
+.custom-input:focus {
+    border-color: #A52A2A;
+}
+ 
 a {
     color: #A52A2A;
     text-decoration: none;
 }
 
-    a:hover {
-        text-decoration: underline;
-    }
+a:hover {
+    text-decoration: underline;
+}
 
 label.control-label {
     margin-bottom: 10px;
@@ -85,4 +98,10 @@ input.form-control {
 
 .footer-custom {
     color: #A52A2A;
+}
+
+#toast-container > .toast {
+    width: 400px !important;
+    white-space: normal;
+    word-break: break-word;
 }
