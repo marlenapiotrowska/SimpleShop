@@ -45,7 +45,7 @@ namespace SimpleShop.Infrastructure.Repositories
         public async Task<Shop?> GetByNameAsync(string name)
         {
             var shopDb = await _context.Shops
-                .SingleOrDefaultAsync(s => s.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase));
+                .SingleOrDefaultAsync(s => s.Name.ToLower() == name.ToLower());
 
             return shopDb == null 
                 ? null
@@ -55,7 +55,7 @@ namespace SimpleShop.Infrastructure.Repositories
         public async Task<Shop?> GetByDescriptionAsync(string description)
         {
             var shopDb = await _context.Shops
-                .SingleOrDefaultAsync(s => s.Description.Equals(description, StringComparison.CurrentCultureIgnoreCase));
+                .SingleOrDefaultAsync(s => s.Description.ToLower() == description.ToLower());
 
             return shopDb == null
                 ? null

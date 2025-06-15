@@ -9,7 +9,6 @@ using SimpleShop.Application.Shop.Queries.GetAllShops;
 using SimpleShop.Application.Shop.Queries.GetShopById;
 using SimpleShop.MVC.Extensions;
 using SimpleShop.MVC.Factories;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace SimpleShop.MVC.Controllers
 {
@@ -17,12 +16,14 @@ namespace SimpleShop.MVC.Controllers
     public class ShopController : Controller
     {
         private readonly IMediator _mediator;
-        private readonly IEditShopCommandFactory _factory;
+        private readonly IEditShopCommandFactory _editFactory;
+        private readonly IDeleteShopCommandFactory _deleteFactory;
 
-        public ShopController(IMediator mediator, IEditShopCommandFactory factory)
+        public ShopController(IMediator mediator, IEditShopCommandFactory editFactory, IDeleteShopCommandFactory deleteFactory)
         {
             _mediator = mediator;
-            _factory = factory;
+            _editFactory = editFactory;
+            _deleteFactory = deleteFactory;
         }
 
         [HttpGet]
@@ -56,7 +57,7 @@ namespace SimpleShop.MVC.Controllers
                 return redirect;
             }
 
-            var model = _factory.Create(shop);
+            var model = _editFactory.Create(shop);
             return View(model);
         }
 
@@ -69,7 +70,7 @@ namespace SimpleShop.MVC.Controllers
                 return redirect;
             }
 
-            var model = _factory.Create(shop);
+            var model = _deleteFactory.Create(shop);
             return View(model);
         }
 

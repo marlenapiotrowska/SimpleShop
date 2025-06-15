@@ -10,6 +10,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
 builder.Services.AddScoped<IEditShopCommandFactory, EditShopCommandFactory>();
+builder.Services.AddScoped<IDeleteShopCommandFactory, DeleteShopCommandFactory>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {

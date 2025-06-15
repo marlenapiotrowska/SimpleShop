@@ -3,7 +3,7 @@ using SimpleShop.Application.Shop.Commands.EditShop;
 
 namespace SimpleShop.MVC.Factories
 {
-    public class EditShopCommandFactory : IEditShopCommandFactory
+    internal class EditShopCommandFactory : IEditShopCommandFactory
     {
         public EditShopCommand Create(ShopDto shop)
         {
