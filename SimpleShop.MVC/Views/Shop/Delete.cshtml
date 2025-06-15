@@ -17,6 +17,8 @@
 <div>
     <form asp-action="Delete" method="post">
         <input type="hidden" name="Id" value="@Model.Id" />
+        <input type="hidden" name="Name" value="@Model.Name" />
+        <input type="hidden" name="Description" value="@Model.Description" />
 
         <input type="submit" value="Delete" class="custom-button" /> |
         <a asp-action="Index">Back to List</a>
