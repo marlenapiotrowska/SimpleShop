@@ -2,7 +2,7 @@
 
 namespace SimpleShop.Application.Product.Commands.Create
 {
-    internal class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
+    public class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
     {
         private const int _minLength = 3;
         private const int _maxNameLength = 30;

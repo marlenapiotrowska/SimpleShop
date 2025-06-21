@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SimpleShop.Application.ApplicationUser;
 using SimpleShop.Application.Factories;
 using SimpleShop.Application.Factories.Interfaces;
+using SimpleShop.Application.Product.Commands.Create;
 using SimpleShop.Application.Shop.Commands.CreateShop;
 
 namespace SimpleShop.Application.Extensions
@@ -21,6 +22,10 @@ namespace SimpleShop.Application.Extensions
             services.AddTransient<IProductFactory, ProductFactory>();
 
             services.AddValidatorsFromAssemblyContaining<CreateShopCommandValidator>()
+                .AddFluentValidationAutoValidation()
+                .AddFluentValidationClientsideAdapters();
+
+            services.AddValidatorsFromAssemblyContaining<CreateProductCommandValidator>()
                 .AddFluentValidationAutoValidation()
                 .AddFluentValidationClientsideAdapters();
         }
