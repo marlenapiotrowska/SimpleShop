@@ -3,22 +3,22 @@ using SimpleShop.Application.ApplicationUser;
 using SimpleShop.Application.Factories.Interfaces;
 using SimpleShop.Domain.Repositories;
 
-namespace SimpleShop.Application.Shop.Commands.CreateShop
+namespace SimpleShop.Application.Product.Commands.Create
 {
-    public class CreateShopCommandHandler : IRequestHandler<CreateShopCommand>
+    internal class CreateProductCommandHandler : IRequestHandler<CreateProductCommand>
     {
-        private readonly IShopFactory _factory;
-        private readonly IShopRepository _repository;
         private readonly IUserContext _userContext;
+        private readonly IProductRepository _repository;
+        private readonly IProductFactory _factory;
 
-        public CreateShopCommandHandler(IShopFactory factory, IShopRepository repository, IUserContext userContext)
+        public CreateProductCommandHandler(IUserContext userContext, IProductRepository repository, IProductFactory factory)
         {
-            _factory = factory;
-            _repository = repository;
             _userContext = userContext;
+            _repository = repository;
+            _factory = factory;
         }
 
-        public async Task<Unit> Handle(CreateShopCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
             var currentUser = _userContext.GetCurrentUser();
 
