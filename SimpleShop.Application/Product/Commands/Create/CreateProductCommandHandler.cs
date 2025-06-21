@@ -27,8 +27,8 @@ namespace SimpleShop.Application.Product.Commands.Create
                 return Unit.Value;
             }
 
-            var shop = _factory.CreateNew(request, currentUser.Id);
-            await _repository.AddAsync(shop);
+            var product = _factory.CreateNew(request, currentUser.Id);
+            await _repository.AddAsync(product);
 
             return Unit.Value;
         }

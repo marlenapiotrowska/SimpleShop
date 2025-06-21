@@ -27,7 +27,7 @@ namespace SimpleShop.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Shop>> GetAll()
+        public async Task<IEnumerable<Shop>> GetAllAsync()
         {
             var shopsDb = await _context.Shops.ToListAsync();
 

@@ -24,7 +24,7 @@ namespace SimpleShop.Application.Shop.Queries.GetAllShops
             var currentUser = _userContext.GetCurrentUser()
                 ?? throw new UserNotFoundException();
 
-            var shops = await _repository.GetAll();
+            var shops = await _repository.GetAllAsync();
 
             return shops.Select(shop => _factory.Create(shop, currentUser.Id));
         }
