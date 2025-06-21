@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SimpleShop.Application.Product.Commands.Create;
 using SimpleShop.Application.Product.Queries.GetAll;
-using SimpleShop.Application.Shop.Commands.CreateShop;
-using SimpleShop.Application.Shop.Queries.GetAllShops;
 using SimpleShop.MVC.Extensions;
 
 namespace SimpleShop.MVC.Controllers
