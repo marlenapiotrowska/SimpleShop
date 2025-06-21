@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.Collections.Generic;
-
-namespace SimpleShop.Infrastructure.Models
+﻿namespace SimpleShop.Infrastructure.Models
 {
-    public class Shop
+    public class Product
     {
         public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;
