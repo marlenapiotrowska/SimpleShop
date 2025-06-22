@@ -32,6 +32,7 @@ namespace SimpleShop.Infrastructure.Extensions
             services.AddTransient<IProductFactory, ProductFactory>();
             services.AddTransient<IProductDbFactory, ProductDbFactory>();
             services.AddTransient<IShopProductFactory, ShopProductFactory>();
+            services.AddTransient<IShopProductDbFactory, ShopProductDbFactory>();
         }
     }
 }

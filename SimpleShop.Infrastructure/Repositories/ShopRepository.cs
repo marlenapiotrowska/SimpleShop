@@ -2,7 +2,9 @@
 using SimpleShop.Domain.Entities;
 using SimpleShop.Domain.Repositories;
 using SimpleShop.Infrastructure.Exceptions;
+using SimpleShop.Infrastructure.Factories;
 using SimpleShop.Infrastructure.Factories.Interfaces;
+using ShopDb = SimpleShop.Infrastructure.Models.Shop;
 
 namespace SimpleShop.Infrastructure.Repositories
 {
@@ -11,12 +13,14 @@ namespace SimpleShop.Infrastructure.Repositories
         private readonly SimpleShopDbContext _context;
         private readonly IShopDbFactory _dbFactory;
         private readonly IShopFactory _factory;
+        private readonly IShopProductDbFactory _shopProductDbFactory;
 
-        public ShopRepository(SimpleShopDbContext context, IShopDbFactory dbFactory, IShopFactory factory)
+        public ShopRepository(SimpleShopDbContext context, IShopDbFactory dbFactory, IShopFactory factory, IShopProductDbFactory shopProductDbFactory)
         {
             _context = context;
             _dbFactory = dbFactory;
             _factory = factory;
+            _shopProductDbFactory = shopProductDbFactory;
         }
 
         public async Task AddAsync(Shop shop)
@@ -42,20 +46,20 @@ namespace SimpleShop.Infrastructure.Repositories
             return _factory.Create(shopDb);
         }
 
-        public async Task<Shop?> GetByNameAsync(string name)
+        public async Task<Shop?> GetByNameAsync(string name, Guid id)
         {
             var shopDb = await _context.Shops
-                .SingleOrDefaultAsync(s => s.Name.ToLower() == name.ToLower());
+                .SingleOrDefaultAsync(s => s.Name.ToLower() == name.ToLower() && s.Id != id);
 
             return shopDb == null 
                 ? null
                 : _factory.Create(shopDb);
         }
 
-        public async Task<Shop?> GetByDescriptionAsync(string description)
+        public async Task<Shop?> GetByDescriptionAsync(string description, Guid id)
         {
             var shopDb = await _context.Shops
-                .SingleOrDefaultAsync(s => s.Description.ToLower() == description.ToLower());
+                .SingleOrDefaultAsync(s => s.Description.ToLower() == description.ToLower() && s.Id != id);
 
             return shopDb == null
                 ? null
@@ -64,13 +68,38 @@ namespace SimpleShop.Infrastructure.Repositories
 
         public async Task UpdateAsync(Shop shop)
         {
-            var shopDb = await _context.Shops.SingleOrDefaultAsync(s => s.Id == shop.Id)
+            var shopDb = await _context.Shops
+                .Include(s => s.ShopProducts)
+                .SingleOrDefaultAsync(s => s.Id == shop.Id)
                 ?? throw new EntityNotFoundException($"There is no shop with id {shop.Id}");
 
             shopDb.Name = shop.Name;
             shopDb.Description = shop.Description;
+            UpdateProducts(shopDb, shop.AssignedProducts);
+        }
 
-            await _context.SaveChangesAsync();
+        private void UpdateProducts(ShopDb shopDb, List<ShopProduct> assignedProducts)
+        {
+            var productsToDelete = shopDb.ShopProducts
+                ?.Where(p => !assignedProducts.Any(assigned => assigned?.Id == p.Id)) 
+                ?? [];
+
+            foreach (var product in productsToDelete)
+            {
+                shopDb.ShopProducts?.Remove(product);
+                _context.ShopProducts.Remove(product);
+            }
+
+            var productsToAdd = assignedProducts
+                .Where(p => !shopDb.ShopProducts?.Any(sp => sp?.Id == p.Id) ?? false)
+                ?? [];
+
+            foreach (var product in productsToAdd)
+            {
+                var shopProdcutDb = _shopProductDbFactory.Create(product);
+                shopDb.ShopProducts?.Add(shopProdcutDb);
+                _context.ShopProducts.Add(shopProdcutDb);
+            }
         }
 
         public async Task DeleteAsync(Shop shop)
@@ -80,6 +109,11 @@ namespace SimpleShop.Infrastructure.Repositories
         
             _context.Remove(shopDb);
 
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task SaveChangesAsync()
+        {
             await _context.SaveChangesAsync();
         }
     }

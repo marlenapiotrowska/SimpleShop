@@ -20,6 +20,7 @@ namespace SimpleShop.Application.Extensions
             services.AddTransient<IShopDtoFactory, ShopDtoFactory>();
             services.AddTransient<IProductDtoFactory, ProductDtoFactory>();
             services.AddTransient<IProductFactory, ProductFactory>();
+            services.AddTransient<IShopProductFactory, ShopProductFactory>();
 
             services.AddValidatorsFromAssemblyContaining<CreateShopCommandValidator>()
                 .AddFluentValidationAutoValidation()

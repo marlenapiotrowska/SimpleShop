@@ -20,6 +20,8 @@
             Description = description;
             DateCreated = dateCreated;
             UserCreatedId = userCreatedId;
+            AssignedProducts = [];
+            AvailableProducts = [];
         }
 
         public Guid Id { get; }
@@ -28,8 +30,8 @@
         public DateTime DateCreated { get; }
         public string UserCreatedId { get; }
 
-        public IEnumerable<ShopProduct> AssignedProducts { get; private set; }
-        public IEnumerable<ShopProduct> AvailableProducts { get; private set; }
+        public List<ShopProduct> AssignedProducts { get; private set; }
+        public List<ShopProduct> AvailableProducts { get; private set; }
 
         public void EditName(string name)
         {
@@ -43,12 +45,20 @@
 
         public void AddAssignedProducts(IEnumerable<ShopProduct> products)
         {
-            AssignedProducts = products;
+            AssignedProducts.AddRange(products);
         }
 
         public void AddAvailableProducts(IEnumerable<ShopProduct> products)
         {
-            AvailableProducts = products;
+            AvailableProducts.AddRange(products);
+        }
+
+        public void DeleteProducts(IEnumerable<ShopProduct> products)
+        {
+            foreach (var product in products)
+            {
+                AssignedProducts.Remove(product);
+            }
         }
     }
 }

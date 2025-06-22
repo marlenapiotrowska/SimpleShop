@@ -46,6 +46,10 @@
 							<td>
 								@Model.AssignedShopProducts[i].Name
 								<input type="hidden" asp-for="AssignedShopProducts[@i].Id" />
+								<input type="hidden" asp-for="AssignedShopProducts[@i].ProductId" />
+								<input type="hidden" asp-for="AssignedShopProducts[@i].ShopId" />
+								<input type="hidden" asp-for="AssignedShopProducts[@i].Name" />
+								<input type="hidden" asp-for="AssignedShopProducts[@i].Description" />
 							</td>
 							<td>
 								<input type="number" asp-for="AssignedShopProducts[@i].Price" class="form-control" />
@@ -72,6 +76,10 @@
 							<td>
 								<input type="checkbox" asp-for="AvailableShopProducts[@i].IsSelected" />
 								<input type="hidden" asp-for="AvailableShopProducts[@i].Id" />
+								<input type="hidden" asp-for="AvailableShopProducts[@i].ProductId" />
+								<input type="hidden" asp-for="AvailableShopProducts[@i].ShopId" />
+								<input type="hidden" asp-for="AvailableShopProducts[@i].Name" />
+								<input type="hidden" asp-for="AvailableShopProducts[@i].Description" />
 							</td>
 							<td>@Model.AvailableShopProducts[i].Name</td>
 							<td>@Model.AvailableShopProducts[i].Description</td>
