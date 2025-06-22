@@ -26,10 +26,12 @@ namespace SimpleShop.Infrastructure.Extensions
 
             services.AddScoped<IShopRepository, ShopRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IShopProductRepository, ShopProductRepository>();
             services.AddTransient<IShopDbFactory, ShopDbFactory>();
             services.AddTransient<IShopFactory, ShopFactory>();
             services.AddTransient<IProductFactory, ProductFactory>();
             services.AddTransient<IProductDbFactory, ProductDbFactory>();
+            services.AddTransient<IShopProductFactory, ShopProductFactory>();
         }
     }
 }

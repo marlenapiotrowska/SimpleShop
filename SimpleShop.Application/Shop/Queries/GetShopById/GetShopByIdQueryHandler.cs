@@ -8,13 +8,15 @@ namespace SimpleShop.Application.Shop.Queries.GetShopById
 {
     public class GetShopByIdQueryHandler : IRequestHandler<GetShopByIdQuery, ShopDto>
     {
-        private readonly IShopRepository _repository;
+        private readonly IShopRepository _shopRepository;
+        private readonly IShopProductRepository _shopProductsRepository;
         private readonly IShopDtoFactory _factory;
         private readonly IUserContext _userContext;
 
-        public GetShopByIdQueryHandler(IShopRepository repository, IShopDtoFactory factory, IUserContext userContext)
+        public GetShopByIdQueryHandler(IShopRepository shopRepository, IShopProductRepository shopProductsRepository, IShopDtoFactory factory, IUserContext userContext)
         {
-            _repository = repository;
+            _shopRepository = shopRepository;
+            _shopProductsRepository = shopProductsRepository;
             _factory = factory;
             _userContext = userContext;
         }
@@ -24,7 +26,13 @@ namespace SimpleShop.Application.Shop.Queries.GetShopById
             var currentUser = _userContext.GetCurrentUser()
                 ?? throw new UserNotFoundException();
 
-            var shop = await _repository.GetByIdAsync(request.ShopId);
+            var shop = await _shopRepository.GetByIdAsync(request.ShopId);
+
+            var productsAssigned = await _shopProductsRepository.GetAssignedToShopAsync(request.ShopId);
+            var availableProducts = await _shopProductsRepository.GetNotAssignedToShopAsync(request.ShopId);
+
+            shop.AddAssignedProducts(productsAssigned);
+            shop.AddAvailableProducts(availableProducts);
 
             return _factory.Create(shop, currentUser.Id);
         }

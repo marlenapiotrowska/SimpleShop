@@ -8,12 +8,14 @@ namespace SimpleShop.Application.Shop.Commands.EditShop
     internal class EditShopCommandHandler : IRequestHandler<EditShopCommand>
     {
         private readonly IUserContext _userContext;
-        private readonly IShopRepository _repository;
+        private readonly IShopRepository _shopRepository;
+        private readonly IShopProductRepository _shopProductsRepository;
 
-        public EditShopCommandHandler(IUserContext userContext, IShopRepository repository)
+        public EditShopCommandHandler(IUserContext userContext, IShopRepository shopRepository, IShopProductRepository shopProductsRepository)
         {
             _userContext = userContext;
-            _repository = repository;
+            _shopRepository = shopRepository;
+            _shopProductsRepository = shopProductsRepository;
         }
         
         public async Task<Unit> Handle(EditShopCommand request, CancellationToken cancellationToken)
@@ -21,7 +23,10 @@ namespace SimpleShop.Application.Shop.Commands.EditShop
             var currentUser = _userContext.GetCurrentUser()
                 ?? throw new UserNotFoundException();
 
-            var shop = await _repository.GetByIdAsync(request.Id);
+            var shop = await _shopRepository.GetByIdAsync(request.Id);
+            var productsAssigned = await _shopProductsRepository.GetAssignedToShopAsync(request.Id);
+
+            shop.AddAssignedProducts(productsAssigned);
 
             if (shop.UserCreatedId != currentUser.Id)
             {
@@ -31,7 +36,7 @@ namespace SimpleShop.Application.Shop.Commands.EditShop
             shop.EditName(request.Name);
             shop.EditDescription(request.Description);
 
-            await _repository.UpdateAsync(shop);
+            await _shopRepository.UpdateAsync(shop);
 
             return Unit.Value;
         }

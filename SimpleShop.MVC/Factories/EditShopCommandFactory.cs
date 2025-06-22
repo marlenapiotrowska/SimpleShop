@@ -12,7 +12,9 @@ namespace SimpleShop.MVC.Factories
                 Id = shop.Id,
                 Name = shop.Name,
                 Description = shop.Description,
-                IsEditable = shop.IsEditable
+                IsEditable = shop.IsEditable,
+                AssignedShopProducts = [.. shop.AssignedProducts],
+                AvailableShopProducts = [.. shop.AvailableProducts]
             };
         }
     }

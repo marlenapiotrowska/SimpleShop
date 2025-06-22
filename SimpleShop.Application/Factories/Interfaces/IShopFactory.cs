@@ -6,7 +6,6 @@ namespace SimpleShop.Application.Factories.Interfaces
 {
     public interface IShopFactory
     {
-        ShopEntity Create(ShopDto shop, string userId);
         ShopEntity CreateNew(CreateShopCommand command, string userId);
     }
 }
