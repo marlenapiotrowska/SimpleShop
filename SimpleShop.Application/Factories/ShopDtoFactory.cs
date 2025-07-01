@@ -8,7 +8,7 @@ namespace SimpleShop.Application.Factories
 {
     internal class ShopDtoFactory : IShopDtoFactory
     {
-        public ShopDto Create(ShopEntity shop, string currentUserId)
+        public ShopDto Create(ShopEntity shop, string currentUserId, IEnumerable<ShopProductEntity> availableProducts)
         {
             var isEditable = shop.UserCreatedId == currentUserId;
 
@@ -20,7 +20,7 @@ namespace SimpleShop.Application.Factories
                 DateCreated = shop.DateCreated,
                 IsEditable = isEditable,
                 AssignedProducts = CreateShopProducts(shop.AssignedProducts, true),
-                AvailableProducts = CreateShopProducts(shop.AvailableProducts, false)
+                AvailableProducts = CreateShopProducts(availableProducts, false)
             };
         }
 

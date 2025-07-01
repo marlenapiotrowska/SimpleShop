@@ -32,9 +32,8 @@ namespace SimpleShop.Application.Shop.Queries.GetShopById
             var availableProducts = await _shopProductsRepository.GetNotAssignedToShopAsync(request.ShopId);
 
             shop.AddAssignedProducts(productsAssigned);
-            shop.AddAvailableProducts(availableProducts);
 
-            return _factory.Create(shop, currentUser.Id);
+            return _factory.Create(shop, currentUser.Id, availableProducts);
         }
     }
 }
