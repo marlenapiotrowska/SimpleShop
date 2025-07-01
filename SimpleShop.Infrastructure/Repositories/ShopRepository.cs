@@ -81,7 +81,7 @@ namespace SimpleShop.Infrastructure.Repositories
         private void UpdateProducts(ShopDb shopDb, List<ShopProduct> assignedProducts)
         {
             var productsToDelete = shopDb.ShopProducts
-                ?.Where(p => !assignedProducts.Any(assigned => assigned?.Id == p.Id)) 
+                ?.Where(p => assignedProducts == null || !assignedProducts.Any(assigned => assigned.Id == p.Id)) 
                 ?? [];
 
             foreach (var product in productsToDelete)
@@ -91,7 +91,7 @@ namespace SimpleShop.Infrastructure.Repositories
             }
 
             var productsToAdd = assignedProducts
-                .Where(p => !shopDb.ShopProducts?.Any(sp => sp?.Id == p.Id) ?? false)
+                .Where(p => shopDb.ShopProducts == null || !shopDb.ShopProducts.Any(sp => sp.Id == p.Id))
                 ?? [];
 
             foreach (var product in productsToAdd)

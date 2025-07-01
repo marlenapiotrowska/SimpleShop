@@ -3,6 +3,7 @@ using SimpleShop.Application.ApplicationUser;
 using SimpleShop.Application.Exceptions;
 using SimpleShop.Application.Factories.Interfaces;
 using SimpleShop.Domain.Repositories;
+using ShopProductEntity = SimpleShop.Domain.Entities.ShopProduct;
 
 namespace SimpleShop.Application.Shop.Commands.EditShop
 {
@@ -31,7 +32,7 @@ namespace SimpleShop.Application.Shop.Commands.EditShop
                 ?? throw new UserNotFoundException();
 
             var shop = await _shopRepository.GetByIdAsync(request.Id);
-            
+
             if (shop.UserCreatedId != currentUser.Id)
             {
                 throw new ShopNotEditableException(shop.Name, currentUser.Name);
@@ -42,22 +43,26 @@ namespace SimpleShop.Application.Shop.Commands.EditShop
 
             shop.EditName(request.Name);
             shop.EditDescription(request.Description);
-
-            var productsToDelete = productsAssigned
-                .Where(sp => !request.AssignedShopProducts.Select(p => p.Id).Contains(sp.Id));
-
-            shop.DeleteProducts(productsToDelete);
-
-            var productsToAdd = request.AvailableShopProducts
-                .Where(p => p.IsSelected)
-                .Select(_shopProductFactory.Create);
-
-            shop.AddAssignedProducts(productsToAdd);
+            shop.DeleteProducts(GetProductsToDelete(request, productsAssigned));
+            shop.AddAssignedProducts(GetProductsToAdd(request, productsAssigned));
 
             await _shopRepository.UpdateAsync(shop);
             await _shopRepository.SaveChangesAsync();
 
             return Unit.Value;
+        }
+
+        private IEnumerable<ShopProductEntity> GetProductsToDelete(EditShopCommand request, IEnumerable<ShopProductEntity> productsAssigned)
+        {
+            return productsAssigned
+                .Where(sp => !request.AssignedShopProducts.Any(p => p.Id == sp.Id));
+        }
+
+        private IEnumerable<ShopProductEntity> GetProductsToAdd(EditShopCommand request, IEnumerable<ShopProductEntity> productsAssigned)
+        {
+            return request.AvailableShopProducts
+                .Where(p => p.IsSelected)
+                .Select(_shopProductFactory.Create);
         }
     }
 }
