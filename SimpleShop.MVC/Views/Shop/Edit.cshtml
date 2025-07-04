@@ -22,20 +22,21 @@
 
 			<div class="form-group mb-3">
 				<label asp-for="Name" class="control-label"></label>
-				<input asp-for="Name" class="custom-input" />
+				<input asp-for="Name" class="custom-label-input" />
 				<span asp-validation-for="Name" class="text-danger"></span>
 			</div>
 			<div class="form-group mb-3">
 				<label asp-for="Description" class="control-label"></label>
-				<input asp-for="Description" class="custom-input" />
+				<input asp-for="Description" class="custom-label-input" />
 				<span asp-validation-for="Description" class="text-danger"></span>
 			</div>
 
 			<h3>Assigned Products</h3>
-			<table class="table">
+			<table class="custom-table">
 				<thead>
 					<tr>
-						<th>Product</th>
+						<th>Name</th>
+						<th>Description</th>
 						<th>Price</th>
 					</tr>
 				</thead>
@@ -43,16 +44,16 @@
 					@for (int i = 0; i < Model.AssignedShopProducts.Count; i++)
 					{
 						<tr>
+							<input type="hidden" asp-for="AssignedShopProducts[@i].Id" />
+							<input type="hidden" asp-for="AssignedShopProducts[@i].ProductId" />
+							<input type="hidden" asp-for="AssignedShopProducts[@i].ShopId" />
+							<input type="hidden" asp-for="AssignedShopProducts[@i].Name" />
+							<input type="hidden" asp-for="AssignedShopProducts[@i].Description" />
+							<td>@Model.AvailableShopProducts[i].Name</td>
+							<td>@Model.AvailableShopProducts[i].Description</td>
 							<td>
-								@Model.AssignedShopProducts[i].Name
-								<input type="hidden" asp-for="AssignedShopProducts[@i].Id" />
-								<input type="hidden" asp-for="AssignedShopProducts[@i].ProductId" />
-								<input type="hidden" asp-for="AssignedShopProducts[@i].ShopId" />
-								<input type="hidden" asp-for="AssignedShopProducts[@i].Name" />
-								<input type="hidden" asp-for="AssignedShopProducts[@i].Description" />
-							</td>
-							<td>
-								<input type="number" asp-for="AssignedShopProducts[@i].Price" class="form-control" />
+								<input type="number" asp-for="AssignedShopProducts[@i].Price" class="custom-price-input" />
+								<span asp-validation-for="AssignedShopProducts[@i].Price" class="text-danger"></span>
 							</td>
 						</tr>
 					}
@@ -60,7 +61,7 @@
 			</table>
 
 			<h3>Add New Products</h3>
-			<table class="table">
+			<table class="custom-table">
 				<thead>
 					<tr>
 						<th>Select</th>
@@ -73,18 +74,17 @@
 					@for (int i = 0; i < Model.AvailableShopProducts.Count; i++)
 					{
 						<tr>
-							<td>
-								<input type="checkbox" asp-for="AvailableShopProducts[@i].IsSelected" />
-								<input type="hidden" asp-for="AvailableShopProducts[@i].Id" />
-								<input type="hidden" asp-for="AvailableShopProducts[@i].ProductId" />
-								<input type="hidden" asp-for="AvailableShopProducts[@i].ShopId" />
-								<input type="hidden" asp-for="AvailableShopProducts[@i].Name" />
-								<input type="hidden" asp-for="AvailableShopProducts[@i].Description" />
-							</td>
+							<input type="hidden" asp-for="AvailableShopProducts[@i].Id" />
+							<input type="hidden" asp-for="AvailableShopProducts[@i].ProductId" />
+							<input type="hidden" asp-for="AvailableShopProducts[@i].ShopId" />
+							<input type="hidden" asp-for="AvailableShopProducts[@i].Name" />
+							<input type="hidden" asp-for="AvailableShopProducts[@i].Description" />
+							<td><input type="checkbox" asp-for="AvailableShopProducts[@i].IsSelected" class="form-check-input" /></td>
 							<td>@Model.AvailableShopProducts[i].Name</td>
 							<td>@Model.AvailableShopProducts[i].Description</td>
 							<td>
-								<input type="number" asp-for="AvailableShopProducts[@i].Price" class="form-control" />
+								<input type="number" asp-for="AvailableShopProducts[@i].Price" class="custom-price-input" />
+								<span asp-validation-for="AssignedShopProducts[@i].Price" class="text-danger"></span>
 							</td>
 						</tr>
 					}
