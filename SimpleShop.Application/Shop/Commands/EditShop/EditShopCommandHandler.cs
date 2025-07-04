@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using SimpleShop.Application.ApplicationUser;
-using SimpleShop.Application.Exceptions;
 using SimpleShop.Application.Factories.Interfaces;
 using SimpleShop.Domain.Repositories;
 using ShopProductEntity = SimpleShop.Domain.Entities.ShopProduct;
@@ -9,18 +8,18 @@ namespace SimpleShop.Application.Shop.Commands.EditShop
 {
     internal class EditShopCommandHandler : IRequestHandler<EditShopCommand>
     {
-        private readonly IUserContext _userContext;
+        private readonly IShopAccessValidator _accessValidator;
         private readonly IShopRepository _shopRepository;
         private readonly IShopProductRepository _shopProductsRepository;
         private readonly IShopProductFactory _shopProductFactory;
 
         public EditShopCommandHandler(
-            IUserContext userContext, 
+            IShopAccessValidator accessValidator, 
             IShopRepository shopRepository, 
             IShopProductRepository shopProductsRepository,
             IShopProductFactory shopProductFactory)
         {
-            _userContext = userContext;
+            _accessValidator = accessValidator;
             _shopRepository = shopRepository;
             _shopProductsRepository = shopProductsRepository;
             _shopProductFactory = shopProductFactory;
@@ -28,15 +27,8 @@ namespace SimpleShop.Application.Shop.Commands.EditShop
         
         public async Task<Unit> Handle(EditShopCommand request, CancellationToken cancellationToken)
         {
-            var currentUser = _userContext.GetCurrentUser()
-                ?? throw new UserNotFoundException();
-
             var shop = await _shopRepository.GetByIdAsync(request.Id);
-
-            if (shop.UserCreatedId != currentUser.Id)
-            {
-                throw new ShopNotEditableException(shop.Name, currentUser.Name);
-            }
+            _accessValidator.Validate(shop);
 
             var productsAssigned = await _shopProductsRepository.GetAssignedToShopAsync(request.Id);
             shop.AddAssignedProducts(productsAssigned);
