@@ -7,8 +7,8 @@ namespace SimpleShop.Domain.Repositories
         Task AddAsync(Shop shop);
         Task<IEnumerable<Shop>> GetAllAsync();
         Task<Shop> GetByIdAsync(Guid shopId);
-        Task<Shop?> GetByNameAsync(string name, Guid? id = null);
-        Task<Shop?> GetByDescriptionAsync(string description, Guid? id = null);
+        Task<Shop?> GetByNameAsync(string name, Guid id);
+        Task<Shop?> GetByDescriptionAsync(string description, Guid id);
         Task UpdateAsync(Shop shop);
         Task DeleteAsync(Shop shop);
         Task SaveChangesAsync();
