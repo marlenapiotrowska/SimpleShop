@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using SimpleShop.Application.Shop.Commands.EditShop;
 using SimpleShop.Domain.Repositories;
 
 namespace SimpleShop.Application.Shop.Commands.CreateShop
@@ -18,9 +17,9 @@ namespace SimpleShop.Application.Shop.Commands.CreateShop
                 .MaximumLength(_maxNameLength).WithMessage($"Name should have maximum of {_maxNameLength} characters")
                 .Custom((value, context) =>
                 {
-                    var model = (EditShopCommand)context.InstanceToValidate;
+                    var model = context.InstanceToValidate;
 
-                    var existsingShop = repository.GetByNameAsync(value, model.Id).GetAwaiter().GetResult();
+                    var existsingShop = repository.GetByNameAsync(value).GetAwaiter().GetResult();
                     if (existsingShop != null)
                     {
                         context.AddFailure($"{value} is not unique name for shop");
@@ -33,9 +32,9 @@ namespace SimpleShop.Application.Shop.Commands.CreateShop
                 .MaximumLength(_maxDescriptionLength).WithMessage($"Description should have maximum of {_maxDescriptionLength} characters")
                 .Custom((value, context) =>
                 {
-                    var model = (EditShopCommand)context.InstanceToValidate;
+                    var model = context.InstanceToValidate;
 
-                    var existsingShop = repository.GetByDescriptionAsync(value, model.Id).GetAwaiter().GetResult();
+                    var existsingShop = repository.GetByDescriptionAsync(value).GetAwaiter().GetResult();
                     if (existsingShop != null)
                     {
                         context.AddFailure($"{value} is not unique description for shop");

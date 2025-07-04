@@ -2,7 +2,6 @@
 using SimpleShop.Domain.Entities;
 using SimpleShop.Domain.Repositories;
 using SimpleShop.Infrastructure.Exceptions;
-using SimpleShop.Infrastructure.Factories;
 using SimpleShop.Infrastructure.Factories.Interfaces;
 using ShopDb = SimpleShop.Infrastructure.Models.Shop;
 
@@ -46,20 +45,20 @@ namespace SimpleShop.Infrastructure.Repositories
             return _factory.Create(shopDb);
         }
 
-        public async Task<Shop?> GetByNameAsync(string name, Guid id)
+        public async Task<Shop?> GetByNameAsync(string name, Guid? id)
         {
             var shopDb = await _context.Shops
-                .SingleOrDefaultAsync(s => s.Name.ToLower() == name.ToLower() && s.Id != id);
+                .SingleOrDefaultAsync(s => s.Name.ToLower() == name.ToLower() && (id == null || s.Id != id));
 
             return shopDb == null 
                 ? null
                 : _factory.Create(shopDb);
         }
 
-        public async Task<Shop?> GetByDescriptionAsync(string description, Guid id)
+        public async Task<Shop?> GetByDescriptionAsync(string description, Guid? id)
         {
             var shopDb = await _context.Shops
-                .SingleOrDefaultAsync(s => s.Description.ToLower() == description.ToLower() && s.Id != id);
+                .SingleOrDefaultAsync(s => s.Description.ToLower() == description.ToLower() && (id == null || s.Id != id));
 
             return shopDb == null
                 ? null
