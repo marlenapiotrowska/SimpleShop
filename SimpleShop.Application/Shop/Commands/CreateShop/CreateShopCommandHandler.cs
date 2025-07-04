@@ -20,12 +20,7 @@ namespace SimpleShop.Application.Shop.Commands.CreateShop
 
         public async Task<Unit> Handle(CreateShopCommand request, CancellationToken cancellationToken)
         {
-            var currentUser = _userContext.GetCurrentUser();
-
-            if (currentUser == null || !currentUser.IsInManagingRole)
-            {
-                return Unit.Value;
-            }
+            var currentUser = _userContext.GetCurrentUser(true);
 
             var shop = _factory.CreateNew(request, currentUser.Id);
             await _repository.AddAsync(shop);

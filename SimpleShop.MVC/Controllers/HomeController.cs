@@ -24,7 +24,7 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult NoAccessCreation()
+    public IActionResult NoAccessForNotManagingRole()
     {
         return View();
     }

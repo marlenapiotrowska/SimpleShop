@@ -21,8 +21,7 @@ namespace SimpleShop.Application.Shop.Queries.GetAllShops
 
         public async Task<IEnumerable<ShopDto>> Handle(GetAllShopsQuery request, CancellationToken cancellationToken)
         {
-            var currentUser = _userContext.GetCurrentUser()
-                ?? throw new UserNotFoundException();
+            var currentUser = _userContext.GetCurrentUser(false);
 
             var shops = await _repository.GetAllAsync();
 

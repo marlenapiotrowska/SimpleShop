@@ -23,8 +23,7 @@ namespace SimpleShop.Application.Shop.Queries.GetShopById
 
         public async Task<ShopDto> Handle(GetShopByIdQuery request, CancellationToken cancellationToken)
         {
-            var currentUser = _userContext.GetCurrentUser()
-                ?? throw new UserNotFoundException();
+            var currentUser = _userContext.GetCurrentUser(false);
 
             var shop = await _shopRepository.GetByIdAsync(request.ShopId);
 

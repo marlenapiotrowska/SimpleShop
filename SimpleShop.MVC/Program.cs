@@ -14,7 +14,7 @@ builder.Services.AddScoped<IDeleteShopCommandFactory, DeleteShopCommandFactory>(
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.AccessDeniedPath = "/Home/NoAccessCreation";
+    options.AccessDeniedPath = "/Home/NoAccessForNotManagingRole";
     options.LoginPath = "/Identity/Account/Login";
 });
 
@@ -27,6 +27,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseMiddleware<UserNotFoundMiddleware>();
+app.UseMiddleware<UserNotInManagingRoleMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseRouting();
