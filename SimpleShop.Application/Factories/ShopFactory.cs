@@ -9,6 +9,7 @@ namespace SimpleShop.Application.Factories
         public ShopEntity CreateNew(CreateShopCommand shop, string userId)
         {
             return new ShopEntity(
+                shop.Id,
                 shop.Name,
                 shop.Description,
                 userId);

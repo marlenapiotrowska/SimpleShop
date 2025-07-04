@@ -2,9 +2,9 @@
 {
     public class Shop
     {
-        public Shop(string name, string description, string userCreatedId)
+        public Shop(Guid id, string name, string description, string userCreatedId)
         {
-            Id = Guid.NewGuid();
+            Id = id;
             Name = name;
             Description = description;
             DateCreated = DateTime.Now;
