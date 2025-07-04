@@ -27,6 +27,11 @@
         public Guid ShopId { get; }
         public string Name { get; }
         public string Description { get; }
-        public decimal Price { get; }
+        public decimal Price { get; private set; }
+
+        internal void UpdatePrice(decimal price)
+        {
+            Price = price;
+        }
     }
 }

@@ -2,7 +2,6 @@
 using SimpleShop.Domain.Entities;
 using SimpleShop.Domain.Repositories;
 using SimpleShop.Infrastructure.Exceptions;
-using SimpleShop.Infrastructure.Factories;
 using SimpleShop.Infrastructure.Factories.Interfaces;
 using ShopDb = SimpleShop.Infrastructure.Models.Shop;
 
@@ -99,6 +98,22 @@ namespace SimpleShop.Infrastructure.Repositories
                 var shopProdcutDb = _shopProductDbFactory.Create(product);
                 shopDb.ShopProducts?.Add(shopProdcutDb);
                 _context.ShopProducts.Add(shopProdcutDb);
+            }
+
+            var productsToUpdate = assignedProducts
+                .Where(p => shopDb.ShopProducts == null || shopDb.ShopProducts.Any(sp => sp.Id == p.Id && sp.Price != p.Price))
+                ?? [];
+
+            foreach (var product in productsToUpdate)
+            {
+                var productToUpdate = shopDb.ShopProducts
+                    ?.SingleOrDefault(sp => sp?.Id == product.Id);
+                
+                if (productToUpdate != null)
+                {
+                    productToUpdate.Price = product.Price;
+                    _context.ShopProducts.Update(productToUpdate);
+                }
             }
         }
 

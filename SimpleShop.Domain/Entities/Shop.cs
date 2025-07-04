@@ -52,5 +52,16 @@
                 AssignedProducts.Remove(product);
             }
         }
+
+        public void UpdateAssignedProducts(IEnumerable<ShopProduct> products)
+        {
+            foreach (var product in products)
+            {
+                var productToUpdate = AssignedProducts
+                    .SingleOrDefault(p => p.Id == product.Id);
+
+                productToUpdate?.UpdatePrice(product.Price);
+            }
+        }
     }
 }
