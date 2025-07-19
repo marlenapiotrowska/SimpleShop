@@ -137,6 +137,11 @@ input.form-control {
         border: 1px solid #FFE4C4;
     }
 
+.validation-inline {
+    display: inline;
+    white-space: nowrap;
+}
+
 #toast-container > .toast {
     width: 400px !important;
     white-space: normal;
