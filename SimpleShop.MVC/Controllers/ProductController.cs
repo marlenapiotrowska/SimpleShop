@@ -32,6 +32,15 @@ namespace SimpleShop.MVC.Controllers
             return View(products);
         }
 
+        [HttpGet]
+        [Authorize(Roles = "Admin, Owner")]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Edit(Guid productId)
         {
             var product = await _mediator.Send(new GetProductByIdQuery(productId));
@@ -39,6 +48,8 @@ namespace SimpleShop.MVC.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Delete(Guid productId)
         {
             var product = await _mediator.Send(new GetProductByIdQuery(productId));
@@ -59,13 +70,6 @@ namespace SimpleShop.MVC.Controllers
 
             this.SetNotification("success", $"Created product: {command.Name}({command.Description})");
             return RedirectToAction(nameof(Index));
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "Admin, Owner")]
-        public IActionResult Create()
-        {
-            return View();
         }
 
         [HttpPost]

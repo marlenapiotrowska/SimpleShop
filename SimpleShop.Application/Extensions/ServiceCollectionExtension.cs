@@ -17,6 +17,7 @@ namespace SimpleShop.Application.Extensions
             services.AddMediatR(typeof(CreateShopCommand));
             services.AddScoped<IUserContext, UserContext>();
             services.AddScoped<IShopAccessValidator, ShopAccessValidator>();
+            services.AddScoped<IProductAccessValidator, ProductAccessValidator>();
             services.AddTransient<IShopFactory, ShopFactory>();
             services.AddTransient<IShopDtoFactory, ShopDtoFactory>();
             services.AddTransient<IProductDtoFactory, ProductDtoFactory>();
