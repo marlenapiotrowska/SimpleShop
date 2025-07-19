@@ -8,7 +8,7 @@ namespace SimpleShop.Application.Factories
     {
         public ProductDto Create(ProductEntity product, string? currentUserId)
         {
-            var isEditable = string.IsNullOrEmpty(currentUserId);
+            var isEditable = !string.IsNullOrEmpty(currentUserId);
 
             return new ProductDto
             {

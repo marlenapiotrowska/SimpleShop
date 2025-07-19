@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SimpleShop.Application.Exceptions;
 using SimpleShop.Application.Product.Commands.Create;
 using SimpleShop.Application.Product.Commands.Delete;
 using SimpleShop.Application.Product.Commands.Edit;
@@ -8,6 +9,7 @@ using SimpleShop.Application.Product.Queries.GetAll;
 using SimpleShop.Application.Product.Queries.GetById;
 using SimpleShop.MVC.Extensions;
 using SimpleShop.MVC.Factories.Interfaces;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace SimpleShop.MVC.Controllers
 {
@@ -91,10 +93,18 @@ namespace SimpleShop.MVC.Controllers
         [Authorize]
         public async Task<IActionResult> Delete(DeleteProductCommand command)
         {
-            await _mediator.Send(command);
+            try
+            {
+                await _mediator.Send(command);
 
-            this.SetNotification("success", $"Deleted product: {command.Name}({command.Description})");
-            return RedirectToAction(nameof(Index));
+                this.SetNotification("success", $"Deleted product: {command.Name}({command.Description})");
+                return RedirectToAction(nameof(Index));
+            }
+            catch (ProductAssignedToShopException ex)
+            {
+                this.SetNotification("error", ex.Message);
+                return RedirectToAction(nameof(Index));
+            }
         }
     }
 }

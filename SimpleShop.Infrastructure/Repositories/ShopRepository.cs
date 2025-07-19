@@ -65,6 +65,17 @@ namespace SimpleShop.Infrastructure.Repositories
                 : _factory.Create(shopDb);
         }
 
+        public async Task<IEnumerable<Shop>?> GetWithProductAssignedAsync(Guid productId)
+        {
+            var shopsWithProducts = await _context.Shops
+                .Include(s => s.ShopProducts)
+                .Where(s => s.ShopProducts != null && s.ShopProducts.Any(sp => sp.ProductId == productId))
+                .ToListAsync();
+
+            return shopsWithProducts
+                .Select(_factory.Create);
+        }
+
         public async Task UpdateAsync(Shop shop)
         {
             var shopDb = await _context.Shops
