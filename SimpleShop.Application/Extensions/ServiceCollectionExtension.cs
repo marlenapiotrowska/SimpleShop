@@ -6,7 +6,7 @@ using SimpleShop.Application.ApplicationUser;
 using SimpleShop.Application.Factories;
 using SimpleShop.Application.Factories.Interfaces;
 using SimpleShop.Application.Product.Commands.Create;
-using SimpleShop.Application.Shop.Commands.CreateShop;
+using SimpleShop.Application.Shop.Commands.Create;
 
 namespace SimpleShop.Application.Extensions
 {

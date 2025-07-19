@@ -1,8 +1,7 @@
 ﻿using FluentValidation;
-using SimpleShop.Application.Shop.Commands.EditShop;
 using SimpleShop.Domain.Repositories;
 
-namespace SimpleShop.Application.Shop.Commands.CreateShop
+namespace SimpleShop.Application.Shop.Commands.Create
 {
     public class CreateShopCommandValidator : AbstractValidator<CreateShopCommand>
     {

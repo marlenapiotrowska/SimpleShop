@@ -7,7 +7,7 @@ using SimpleShop.Application.Product.Commands.Edit;
 using SimpleShop.Application.Product.Queries.GetAll;
 using SimpleShop.Application.Product.Queries.GetById;
 using SimpleShop.MVC.Extensions;
-using SimpleShop.MVC.Factories;
+using SimpleShop.MVC.Factories.Interfaces;
 
 namespace SimpleShop.MVC.Controllers
 {

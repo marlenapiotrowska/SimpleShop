@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using SimpleShop.Application.ShopProduct;
 
-namespace SimpleShop.Application.Shop.Commands.CreateShop
+namespace SimpleShop.Application.Shop.Commands.Create
 {
-    public record CreateShopCommand : IRequest
+    public class CreateShopCommand : IRequest
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public string Name { get; set; }

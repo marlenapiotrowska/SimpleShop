@@ -1,7 +1,7 @@
 ﻿using SimpleShop.Application.Shop;
-using SimpleShop.Application.Shop.Commands.EditShop;
+using SimpleShop.Application.Shop.Commands.Edit;
 
-namespace SimpleShop.MVC.Factories
+namespace SimpleShop.MVC.Factories.Interfaces
 {
     public interface IEditShopCommandFactory
     {

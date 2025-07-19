@@ -1,10 +1,9 @@
 ﻿using MediatR;
 using SimpleShop.Application.ApplicationUser;
-using SimpleShop.Application.Exceptions;
 using SimpleShop.Application.Factories.Interfaces;
 using SimpleShop.Domain.Repositories;
 
-namespace SimpleShop.Application.Shop.Queries.GetShopById
+namespace SimpleShop.Application.Shop.Queries.GetById
 {
     public class GetShopByIdQueryHandler : IRequestHandler<GetShopByIdQuery, ShopDto>
     {

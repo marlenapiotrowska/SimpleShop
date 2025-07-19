@@ -1,7 +1,7 @@
 ﻿using SimpleShop.Application.Shop;
-using SimpleShop.Application.Shop.Commands.DeleteShop;
+using SimpleShop.Application.Shop.Commands.Delete;
 
-namespace SimpleShop.MVC.Factories
+namespace SimpleShop.MVC.Factories.Interfaces
 {
     public interface IDeleteShopCommandFactory
     {

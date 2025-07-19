@@ -1,6 +1,7 @@
 using SimpleShop.Application.Extensions;
 using SimpleShop.Infrastructure.Extensions;
 using SimpleShop.MVC.Factories;
+using SimpleShop.MVC.Factories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

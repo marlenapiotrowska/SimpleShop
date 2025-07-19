@@ -3,7 +3,7 @@ using SimpleShop.Application.ApplicationUser;
 using SimpleShop.Application.Factories.Interfaces;
 using SimpleShop.Domain.Repositories;
 
-namespace SimpleShop.Application.Shop.Commands.CreateShop
+namespace SimpleShop.Application.Shop.Commands.Create
 {
     public class CreateShopCommandHandler : IRequestHandler<CreateShopCommand>
     {

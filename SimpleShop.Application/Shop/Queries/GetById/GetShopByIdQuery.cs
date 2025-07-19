@@ -1,8 +1,8 @@
 ﻿using MediatR;
 
-namespace SimpleShop.Application.Shop.Queries.GetShopById
+namespace SimpleShop.Application.Shop.Queries.GetById
 {
-    public record class GetShopByIdQuery : IRequest<ShopDto>
+    public record GetShopByIdQuery : IRequest<ShopDto>
     {
         public GetShopByIdQuery(Guid shopId)
         {

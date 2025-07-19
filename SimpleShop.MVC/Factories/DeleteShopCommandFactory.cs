@@ -1,5 +1,6 @@
 ﻿using SimpleShop.Application.Shop;
-using SimpleShop.Application.Shop.Commands.DeleteShop;
+using SimpleShop.Application.Shop.Commands.Delete;
+using SimpleShop.MVC.Factories.Interfaces;
 
 namespace SimpleShop.MVC.Factories
 {

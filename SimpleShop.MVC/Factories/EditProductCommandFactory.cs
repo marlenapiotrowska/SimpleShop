@@ -1,5 +1,6 @@
 ﻿using SimpleShop.Application.Product;
 using SimpleShop.Application.Product.Commands.Edit;
+using SimpleShop.MVC.Factories.Interfaces;
 
 namespace SimpleShop.MVC.Factories
 {

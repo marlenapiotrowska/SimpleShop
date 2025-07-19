@@ -4,7 +4,7 @@ using SimpleShop.Application.Factories.Interfaces;
 using SimpleShop.Domain.Repositories;
 using ShopProductEntity = SimpleShop.Domain.Entities.ShopProduct;
 
-namespace SimpleShop.Application.Shop.Commands.EditShop
+namespace SimpleShop.Application.Shop.Commands.Edit
 {
     internal class EditShopCommandHandler : IRequestHandler<EditShopCommand>
     {

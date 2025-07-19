@@ -1,10 +1,9 @@
 ﻿using MediatR;
 using SimpleShop.Application.ApplicationUser;
-using SimpleShop.Application.Exceptions;
 using SimpleShop.Application.Factories.Interfaces;
 using SimpleShop.Domain.Repositories;
 
-namespace SimpleShop.Application.Shop.Queries.GetAllShops
+namespace SimpleShop.Application.Shop.Queries.GetAll
 {
     internal class GetAllShopsQueryHandler : IRequestHandler<GetAllShopsQuery, IEnumerable<ShopDto>>
     {

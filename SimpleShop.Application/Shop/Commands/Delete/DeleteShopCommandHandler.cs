@@ -2,7 +2,7 @@
 using SimpleShop.Application.ApplicationUser;
 using SimpleShop.Domain.Repositories;
 
-namespace SimpleShop.Application.Shop.Commands.DeleteShop
+namespace SimpleShop.Application.Shop.Commands.Delete
 {
     public class DeleteShopCommandHandler : IRequestHandler<DeleteShopCommand>
     {
