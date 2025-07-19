@@ -40,6 +40,12 @@ namespace SimpleShop.Application.Shop.Commands.Create
                         context.AddFailure($"{value} is not unique description for shop");
                     }
                 });
+
+            RuleForEach(s => s.AssignedShopProducts)
+                .SetValidator(new ShopProductValidator());
+
+            RuleForEach(s => s.AvailableShopProducts)
+                .SetValidator(new ShopProductValidator());
         }
     }
 }
