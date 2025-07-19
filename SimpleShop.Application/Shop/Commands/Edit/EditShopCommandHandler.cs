@@ -36,7 +36,7 @@ namespace SimpleShop.Application.Shop.Commands.Edit
             shop.EditName(request.Name);
             shop.EditDescription(request.Description);
             shop.UpdateAssignedProducts(GetProductsToUpdate(request, productsAssigned));
-            shop.DeleteProducts(GetProductsToDelete(request, productsAssigned));
+            shop.DeleteProducts(GetProductsIdsToDelete(request, productsAssigned));
             shop.AddAssignedProducts(GetProductsToAdd(request, productsAssigned));
 
             await _shopRepository.UpdateAsync(shop);
@@ -52,10 +52,11 @@ namespace SimpleShop.Application.Shop.Commands.Edit
                 .Select(_shopProductFactory.Create);
         }
 
-        private IEnumerable<ShopProductEntity> GetProductsToDelete(EditShopCommand request, IEnumerable<ShopProductEntity> productsAssigned)
+        private IEnumerable<Guid> GetProductsIdsToDelete(EditShopCommand request, IEnumerable<ShopProductEntity> productsAssigned)
         {
-            return productsAssigned
-                .Where(sp => !request.AssignedShopProducts.Any(p => p.Id == sp.Id));
+            return request.AssignedShopProducts
+                .Where(p => !p.IsSelected)
+                .Select(p => p.Id);
         }
 
         private IEnumerable<ShopProductEntity> GetProductsToAdd(EditShopCommand request, IEnumerable<ShopProductEntity> productsAssigned)

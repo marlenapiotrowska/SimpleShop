@@ -45,12 +45,9 @@
             AssignedProducts.AddRange(products);
         }
 
-        public void DeleteProducts(IEnumerable<ShopProduct> products)
+        public void DeleteProducts(IEnumerable<Guid> idsToRemove)
         {
-            foreach (var product in products)
-            {
-                AssignedProducts.Remove(product);
-            }
+            AssignedProducts.RemoveAll(sp => idsToRemove.Contains(sp.Id));
         }
 
         public void UpdateAssignedProducts(IEnumerable<ShopProduct> products)
