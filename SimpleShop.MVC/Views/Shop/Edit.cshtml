@@ -49,8 +49,8 @@
 							<input type="hidden" asp-for="AssignedShopProducts[@i].ShopId" />
 							<input type="hidden" asp-for="AssignedShopProducts[@i].Name" />
 							<input type="hidden" asp-for="AssignedShopProducts[@i].Description" />
-							<td>@Model.AvailableShopProducts[i].Name</td>
-							<td>@Model.AvailableShopProducts[i].Description</td>
+							<td>@Model.AssignedShopProducts[i].Name</td>
+							<td>@Model.AssignedShopProducts[i].Description</td>
 							<td>
 								<input type="number" asp-for="AssignedShopProducts[@i].Price" class="custom-price-input" />
 								<span asp-validation-for="AssignedShopProducts[@i].Price" class="text-danger"></span>
@@ -84,7 +84,7 @@
 							<td>@Model.AvailableShopProducts[i].Description</td>
 							<td>
 								<input type="number" asp-for="AvailableShopProducts[@i].Price" class="custom-price-input" />
-								<span asp-validation-for="AssignedShopProducts[@i].Price" class="text-danger"></span>
+								<span asp-validation-for="AvailableShopProducts[@i].Price" class="text-danger"></span>
 							</td>
 						</tr>
 					}

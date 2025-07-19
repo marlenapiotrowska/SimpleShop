@@ -11,6 +11,8 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
 builder.Services.AddScoped<IEditShopCommandFactory, EditShopCommandFactory>();
 builder.Services.AddScoped<IDeleteShopCommandFactory, DeleteShopCommandFactory>();
+builder.Services.AddScoped<IDeleteProductCommandFactory, DeleteProductCommandFactory>();
+builder.Services.AddScoped<IEditProductCommandFactory, EditProductCommandFactory>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {

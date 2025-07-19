@@ -2,7 +2,7 @@
 
 namespace SimpleShop.Application.Product.Commands.Create
 {
-    public record CreateProductCommand : IRequest
+    public class CreateProductCommand : IRequest
     {
         public string Name { get; set; }
         public string Description { get; set; }

@@ -1,4 +1,6 @@
-﻿namespace SimpleShop.Domain.Entities
+﻿using SimpleShop.Domain.Exceptions;
+
+namespace SimpleShop.Domain.Entities
 {
     public class Product
     {
@@ -21,9 +23,29 @@
         }
 
         public Guid Id { get; }
-        public string Name { get; }
-        public string Description { get; }
+        public string Name { get; private set; }
+        public string Description { get; private set; }
         public DateTime DateCreated { get; }
         public string UserCreatedId { get; }
+
+        public void UpdateDescription(string description)
+        {
+            if (string.IsNullOrEmpty(description))
+            {
+                throw new EmptyValueException("description");
+            }
+
+            Description = description;
+        }
+
+        public void UpdateName(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new EmptyValueException("name");
+            }
+
+            Name = name;
+        }
     }
 }
