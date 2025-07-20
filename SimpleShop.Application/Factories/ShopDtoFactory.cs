@@ -19,12 +19,12 @@ namespace SimpleShop.Application.Factories
                 Description = shop.Description,
                 DateCreated = shop.DateCreated,
                 IsEditable = isEditable,
-                AssignedProducts = CreateShopProducts(shop.AssignedProducts, true),
-                AvailableProducts = CreateShopProducts(availableProducts, false)
+                AssignedProducts = CreateShopProducts(shop.AssignedProducts),
+                AvailableProducts = CreateShopProducts(availableProducts)
             };
         }
 
-        private IEnumerable<ShopProductDto> CreateShopProducts(IEnumerable<ShopProductEntity> shopProducts, bool isSelected)
+        private IEnumerable<ShopProductDto> CreateShopProducts(IEnumerable<ShopProductEntity> shopProducts)
         {
             if (shopProducts == null || !shopProducts.Any())
             {
@@ -40,7 +40,7 @@ namespace SimpleShop.Application.Factories
                     Name = sp.Name,
                     Description = sp.Description,
                     Price = sp.Price,
-                    IsSelected = isSelected
+                    IsSelected = false
                 });
         }
     }

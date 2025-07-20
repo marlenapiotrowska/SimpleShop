@@ -54,15 +54,15 @@ namespace SimpleShop.Application.Shop.Commands.Edit
 
         private IEnumerable<Guid> GetProductsIdsToDelete(EditShopCommand request, IEnumerable<ShopProductEntity> productsAssigned)
         {
-            return request.AssignedShopProducts
-                .Where(p => !p.IsSelected)
-                .Select(p => p.Id);
+            return productsAssigned
+                .Where(assigned => !request.AssignedShopProducts.Any(product => product.Id == assigned.Id))
+                .Select(sp => sp.Id);
         }
 
         private IEnumerable<ShopProductEntity> GetProductsToAdd(EditShopCommand request, IEnumerable<ShopProductEntity> productsAssigned)
         {
-            return request.AvailableShopProducts
-                .Where(p => p.IsSelected)
+            return request.AssignedShopProducts
+                .Where(assigned => !productsAssigned.Any(p => p.Id == assigned.Id))
                 .Select(_shopProductFactory.Create);
         }
     }

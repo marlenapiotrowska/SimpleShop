@@ -43,9 +43,6 @@ namespace SimpleShop.Application.Shop.Commands.Create
 
             RuleForEach(s => s.AssignedShopProducts)
                 .SetValidator(new ShopProductValidator());
-
-            RuleForEach(s => s.AvailableShopProducts)
-                .SetValidator(new ShopProductValidator());
         }
     }
 }

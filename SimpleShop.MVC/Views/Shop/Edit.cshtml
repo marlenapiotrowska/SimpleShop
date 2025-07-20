@@ -32,7 +32,7 @@
 			</div>
 
 			<h3>Assigned Products</h3>
-			<table class="custom-table">
+			<table id="assignedProducts" class="custom-table">
 				<thead>
 					<tr>
 						<th>Select</th>
@@ -50,7 +50,10 @@
 							<input type="hidden" asp-for="AssignedShopProducts[@i].ShopId" />
 							<input type="hidden" asp-for="AssignedShopProducts[@i].Name" />
 							<input type="hidden" asp-for="AssignedShopProducts[@i].Description" />
-							<td><input type="checkbox" asp-for="AssignedShopProducts[@i].IsSelected" class="form-check-input" /></td>
+							<input type="hidden" name="AssignedShopProducts[@i].IsSelected" value="false" />
+							<td>
+								<input type="checkbox" name="AssignedShopProducts[@i].IsSelected" class="form-check-input" />
+							</td>
 							<td>@Model.AssignedShopProducts[i].Name</td>
 							<td>@Model.AssignedShopProducts[i].Description</td>
 							<td>
@@ -62,8 +65,13 @@
 				</tbody>
 			</table>
 
+			<div class="form-group mb-3">
+				<button type="button" id="moveToAssign" class="custom-button">→ Assign</button>
+				<button type="button" id="deleteFromAssign" class="custom-button">← Delete</button>
+			</div>
+
 			<h3>Add New Products</h3>
-			<table class="custom-table">
+			<table id="availableProducts" class="custom-table">
 				<thead>
 					<tr>
 						<th>Select</th>
@@ -81,7 +89,10 @@
 							<input type="hidden" asp-for="AvailableShopProducts[@i].ShopId" />
 							<input type="hidden" asp-for="AvailableShopProducts[@i].Name" />
 							<input type="hidden" asp-for="AvailableShopProducts[@i].Description" />
-							<td><input type="checkbox" asp-for="AvailableShopProducts[@i].IsSelected" class="form-check-input" /></td>
+							<input type="hidden" name="AvailableShopProducts[@i].IsSelected" value="false" />
+							<td>
+								<input type="checkbox" name="AvailableShopProducts[@i].IsSelected" class="form-check-input" />
+							</td>
 							<td>@Model.AvailableShopProducts[i].Name</td>
 							<td>@Model.AvailableShopProducts[i].Description</td>
 							<td>
@@ -108,4 +119,5 @@
 	@{
 		await Html.RenderPartialAsync("_ValidationScriptsPartial");
 	}
+	<script src="~/js/moveProductScript.js"></script>
 }
