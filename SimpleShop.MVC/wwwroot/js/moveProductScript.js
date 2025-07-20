@@ -5,6 +5,7 @@
 
     selected.forEach(input => {
         const row = input.closest("tr");
+        input.checked = false;
         toTable.querySelector("tbody").appendChild(row);
     });
 
