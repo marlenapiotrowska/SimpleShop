@@ -2,6 +2,7 @@ using SimpleShop.Application.Extensions;
 using SimpleShop.Infrastructure.Extensions;
 using SimpleShop.MVC.Factories;
 using SimpleShop.MVC.Factories.Interfaces;
+using SimpleShop.MVC.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,9 @@ builder.Services.AddScoped<IEditShopCommandFactory, EditShopCommandFactory>();
 builder.Services.AddScoped<IDeleteShopCommandFactory, DeleteShopCommandFactory>();
 builder.Services.AddScoped<IDeleteProductCommandFactory, DeleteProductCommandFactory>();
 builder.Services.AddScoped<IEditProductCommandFactory, EditProductCommandFactory>();
+builder.Services.AddTransient<UserNotFoundMiddleware>();
+builder.Services.AddTransient<UserNotInManagingRoleMiddleware>();
+builder.Services.AddTransient<ErrorHandlingMiddleware>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -31,6 +35,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseMiddleware<UserNotFoundMiddleware>();
 app.UseMiddleware<UserNotInManagingRoleMiddleware>();
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseRouting();
