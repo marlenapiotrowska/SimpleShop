@@ -130,9 +130,16 @@ namespace SimpleShop.Infrastructure.Repositories
 
         public async Task DeleteAsync(Shop shop)
         {
-            var shopDb = await _context.Shops.SingleOrDefaultAsync(s => s.Id == shop.Id)
+            var shopDb = await _context.Shops
+                .Include(s => s.ShopProducts)
+                .SingleOrDefaultAsync(s => s.Id == shop.Id)
                 ?? throw new EntityNotFoundException($"There is no shop with id {shop.Id}");
-        
+
+            foreach (var product in shopDb.ShopProducts ?? [])
+            {
+                _context.ShopProducts.Remove(product);
+            }
+
             _context.Remove(shopDb);
 
             await _context.SaveChangesAsync();
