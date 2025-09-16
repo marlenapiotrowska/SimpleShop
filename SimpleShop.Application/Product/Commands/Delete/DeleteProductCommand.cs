@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using SimpleShop.Application.Product.Commands.Create;
+using SimpleShop.Application.Handlers.Product.Create;
 
 namespace SimpleShop.Application.Product.Commands.Delete
 {
-    public class DeleteProductCommand : CreateProductCommand, IRequest
+    public class DeleteProductCommand : CreateProductRequest, IRequest
     {
         public Guid Id { get; set; }
     }

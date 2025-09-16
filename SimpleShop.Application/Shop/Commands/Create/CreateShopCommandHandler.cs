@@ -1,31 +1,27 @@
-﻿using MediatR;
+﻿using SimpleShop.Application.Abstractions;
 using SimpleShop.Application.ApplicationUser;
 using SimpleShop.Application.Factories.Interfaces;
 using SimpleShop.Domain.Repositories;
 
 namespace SimpleShop.Application.Shop.Commands.Create
 {
-    public class CreateShopCommandHandler : IRequestHandler<CreateShopCommand>
+    internal interface ICreateShopCommandHandler : IHandler
     {
-        private readonly IShopFactory _factory;
-        private readonly IShopRepository _repository;
-        private readonly IUserContext _userContext;
+        Task Handle(CreateShopCommand request, CancellationToken cancellationToken);
+    }
 
-        public CreateShopCommandHandler(IShopFactory factory, IShopRepository repository, IUserContext userContext)
+    internal class CreateShopCommandHandler(
+        IShopFactory factory,
+        IShopRepository repository,
+        IUserContext userContext) 
+        : ICreateShopCommandHandler
+    {
+        public async Task Handle(CreateShopCommand request, CancellationToken cancellationToken)
         {
-            _factory = factory;
-            _repository = repository;
-            _userContext = userContext;
-        }
+            var currentUser = userContext.GetCurrentUser(true);
 
-        public async Task<Unit> Handle(CreateShopCommand request, CancellationToken cancellationToken)
-        {
-            var currentUser = _userContext.GetCurrentUser(true);
-
-            var shop = _factory.CreateNew(request, currentUser.Id);
-            await _repository.AddAsync(shop);
-
-            return Unit.Value;
+            var shop = factory.CreateNew(request, currentUser.Id);
+            await repository.AddAsync(shop);
         }
     }
 }

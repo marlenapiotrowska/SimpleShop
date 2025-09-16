@@ -2,14 +2,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SimpleShop.Application.Exceptions;
-using SimpleShop.Application.Product.Commands.Create;
+using SimpleShop.Application.Handlers.Product.Create;
 using SimpleShop.Application.Product.Commands.Delete;
 using SimpleShop.Application.Product.Commands.Edit;
 using SimpleShop.Application.Product.Queries.GetAll;
 using SimpleShop.Application.Product.Queries.GetById;
 using SimpleShop.MVC.Extensions;
 using SimpleShop.MVC.Factories.Interfaces;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace SimpleShop.MVC.Controllers
 {
@@ -19,12 +18,18 @@ namespace SimpleShop.MVC.Controllers
         private readonly IMediator _mediator;
         private readonly IEditProductCommandFactory _editFactory;
         private readonly IDeleteProductCommandFactory _deleteFactory;
+        private readonly ICreateProductHandler _createProductHandler;
 
-        public ProductController(IMediator mediator, IEditProductCommandFactory editFactory, IDeleteProductCommandFactory deleteFactory)
+        public ProductController(
+            IMediator mediator, 
+            IEditProductCommandFactory editFactory, 
+            IDeleteProductCommandFactory deleteFactory,
+            ICreateProductHandler createProductHandler)
         {
             _mediator = mediator;
             _editFactory = editFactory;
             _deleteFactory = deleteFactory;
+            _createProductHandler = createProductHandler;
         }
 
         [HttpGet]
@@ -61,14 +66,14 @@ namespace SimpleShop.MVC.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin, Owner")]
-        public async Task<IActionResult> Create(CreateProductCommand command)
+        public async Task<IActionResult> Create(CreateProductRequest command, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
                 return View(command);
             }
 
-            await _mediator.Send(command);
+            await _createProductHandler.Handle(command, cancellationToken);
 
             this.SetNotification("success", $"Created product: {command.Name}({command.Description})");
             return RedirectToAction(nameof(Index));

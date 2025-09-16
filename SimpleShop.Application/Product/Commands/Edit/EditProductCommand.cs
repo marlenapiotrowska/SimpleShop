@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using SimpleShop.Application.Product.Commands.Create;
+using SimpleShop.Application.Handlers.Product.Create;
 
 namespace SimpleShop.Application.Product.Commands.Edit
 {
-    public class EditProductCommand : CreateProductCommand, IRequest
+    public class EditProductCommand : CreateProductRequest, IRequest
     {
         public Guid Id { get; set; }
     }

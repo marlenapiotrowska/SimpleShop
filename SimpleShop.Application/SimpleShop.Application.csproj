@@ -17,4 +17,8 @@
     <ProjectReference Include="..\SimpleShop.Domain\SimpleShop.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Handlers\Shop\" />
+  </ItemGroup>
+
 </Project>
