@@ -1,5 +1,6 @@
 ﻿using SimpleShop.Application.Shop;
-using SimpleShop.Application.Shop.Commands.EditShop;
+using SimpleShop.Application.Shop.Commands.Edit;
+using SimpleShop.MVC.Factories.Interfaces;
 
 namespace SimpleShop.MVC.Factories
 {
@@ -12,7 +13,9 @@ namespace SimpleShop.MVC.Factories
                 Id = shop.Id,
                 Name = shop.Name,
                 Description = shop.Description,
-                IsEditable = shop.IsEditable
+                IsEditable = shop.IsEditable,
+                AssignedShopProducts = [.. shop.AssignedProducts],
+                AvailableShopProducts = [.. shop.AvailableProducts]
             };
         }
     }

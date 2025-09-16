@@ -1,23 +1,19 @@
 ﻿using SimpleShop.Application.Exceptions;
 
-public class UserNotFoundMiddleware
+namespace SimpleShop.MVC.Middlewares
 {
-    private readonly RequestDelegate _next;
-
-    public UserNotFoundMiddleware(RequestDelegate next)
+    public class UserNotFoundMiddleware : IMiddleware
     {
-        _next = next;
-    }
-
-    public async Task InvokeAsync(HttpContext context)
-    {
-        try
+        public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
-            await _next(context);
-        }
-        catch (UserNotFoundException)
-        {
-            context.Response.Redirect("/Identity/Account/Login");
+            try
+            {
+                await next.Invoke(context);
+            }
+            catch (UserNotFoundException)
+            {
+                context.Response.Redirect("/Identity/Account/Login");
+            }
         }
     }
 }

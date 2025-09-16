@@ -1,12 +1,14 @@
 ﻿using SimpleShop.Application.Factories.Interfaces;
 using SimpleShop.Application.Shop;
+using SimpleShop.Application.ShopProduct;
 using ShopEntity = SimpleShop.Domain.Entities.Shop;
+using ShopProductEntity = SimpleShop.Domain.Entities.ShopProduct;
 
 namespace SimpleShop.Application.Factories
 {
     internal class ShopDtoFactory : IShopDtoFactory
     {
-        public ShopDto Create(ShopEntity shop, string currentUserId)
+        public ShopDto Create(ShopEntity shop, string currentUserId, IEnumerable<ShopProductEntity> availableProducts)
         {
             var isEditable = shop.UserCreatedId == currentUserId;
 
@@ -16,8 +18,30 @@ namespace SimpleShop.Application.Factories
                 Name = shop.Name,
                 Description = shop.Description,
                 DateCreated = shop.DateCreated,
-                IsEditable = isEditable
+                IsEditable = isEditable,
+                AssignedProducts = CreateShopProducts(shop.AssignedProducts),
+                AvailableProducts = CreateShopProducts(availableProducts)
             };
+        }
+
+        private IEnumerable<ShopProductDto> CreateShopProducts(IEnumerable<ShopProductEntity> shopProducts)
+        {
+            if (shopProducts == null || !shopProducts.Any())
+            {
+                return [];
+            }
+
+            return shopProducts
+                .Select(sp => new ShopProductDto
+                {
+                    Id = sp.Id,
+                    ProductId = sp.ProductId,
+                    ShopId = sp.ShopId,
+                    Name = sp.Name,
+                    Description = sp.Description,
+                    Price = sp.Price,
+                    IsSelected = false
+                });
         }
     }
 }

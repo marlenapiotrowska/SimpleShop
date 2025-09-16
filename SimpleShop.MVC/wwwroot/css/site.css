@@ -9,7 +9,8 @@ html {
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #A52A2A;
+    border-color: #A52A2A;
 }
 
 html {
@@ -63,19 +64,30 @@ body {
     text-decoration: none;
 }
 
-.custom-input {
+.custom-label-input {
     width: 300px;
-    border: 2px solid #ccc;
     padding: 8px;
+    border: 2px solid #FFE4C4;
     border-radius: 4px;
     outline: none;
-    transition: border-color 0.2s ease-in-out;
 }
 
-.custom-input:focus {
-    border-color: #A52A2A;
+    .custom-label-input:focus {
+        border-color: #A52A2A;
+    }
+
+.custom-price-input {
+    width: 100px;
+    padding: 8px;
+    border: 2px solid #FFE4C4;
+    border-radius: 4px;
+    outline: none;
 }
- 
+
+    .custom-price-input:focus {
+        border-color: #A52A2A;
+    }
+
 a {
     color: #A52A2A;
     text-decoration: none;
@@ -85,7 +97,7 @@ a:hover {
     text-decoration: underline;
 }
 
-label.control-label {
+.control-label {
     margin-bottom: 10px;
     display: block;
     width: 100%;
@@ -98,6 +110,36 @@ input.form-control {
 
 .footer-custom {
     color: #A52A2A;
+}
+
+.form-check-input:checked {
+    background-color: #A52A2A;
+    border-color: #A52A2A;
+}
+
+.form-check-input {
+    margin-left: 1rem;
+    vertical-align: middle;
+}
+
+.custom-table {
+    background-color: #FAF0E6;
+    border: 1px solid #FFE4C4;
+    width: 100%;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 0 5px rgba(0,0,0,0.05);
+}
+
+    .custom-table th,
+    .custom-table td {
+        padding: 0.75rem;
+        border: 1px solid #FFE4C4;
+    }
+
+.validation-inline {
+    display: inline;
+    white-space: nowrap;
 }
 
 #toast-container > .toast {

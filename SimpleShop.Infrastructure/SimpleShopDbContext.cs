@@ -13,6 +13,8 @@ namespace SimpleShop.Infrastructure
         }
 
         public DbSet<Shop> Shops { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductShop> ShopProducts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -20,6 +22,8 @@ namespace SimpleShop.Infrastructure
 
             modelBuilder
                 .ApplyConfiguration(new ShopConfiguration())
+                .ApplyConfiguration(new ProductConfiguration())
+                .ApplyConfiguration(new ProductShopConfiguration())
                 ;
         }
     }

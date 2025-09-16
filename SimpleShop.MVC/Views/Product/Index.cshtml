@@ -1,0 +1,29 @@
+﻿@using SimpleShop.Application.Product
+@model IEnumerable<ProductDto>
+
+@{
+	ViewData["Title"] = "Index";
+}
+
+<h1>Look at all products</h1>
+
+<p>
+	<a asp-controller="Product" asp-action="Create" method="post" class="custom-button">Create new product</a>
+</p>
+
+<div class="row">
+	@foreach (var item in Model)
+	{
+		<div class="card m-3" style="width: 20rem; color: #A0522D;">
+			<div class="card-body">
+				<h5 class="card-title">@item.Name</h5>
+				<p class="card-text">@item.Description</p>
+				@if (item.IsEditable)
+				{
+					<a class="custom-button" asp-controller="Product" asp-action="Edit" asp-route-productid="@item.Id">Edit</a>
+					<a class="custom-button" asp-controller="Product" asp-action="Delete" asp-route-productid="@item.Id">Delete</a>
+				}
+			</div>
+		</div>
+	}
+</div>

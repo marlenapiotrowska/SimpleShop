@@ -1,4 +1,6 @@
-﻿namespace SimpleShop.Application.Shop
+﻿using SimpleShop.Application.ShopProduct;
+
+namespace SimpleShop.Application.Shop
 {
     public record ShopDto
     {
@@ -7,5 +9,8 @@
         public string Description { get; init; }
         public DateTime DateCreated { get; init; }
         public bool IsEditable { get; init; }
+
+        public IEnumerable<ShopProductDto> AssignedProducts { get; init; }
+        public IEnumerable<ShopProductDto> AvailableProducts { get; init; }
     }
 }

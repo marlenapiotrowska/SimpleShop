@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SimpleShop.Application.Shop;
-using SimpleShop.Application.Shop.Commands.CreateShop;
-using SimpleShop.Application.Shop.Commands.DeleteShop;
-using SimpleShop.Application.Shop.Commands.EditShop;
-using SimpleShop.Application.Shop.Queries.GetAllShops;
-using SimpleShop.Application.Shop.Queries.GetShopById;
+using SimpleShop.Application.Shop.Commands.Create;
+using SimpleShop.Application.Shop.Commands.Delete;
+using SimpleShop.Application.Shop.Commands.Edit;
+using SimpleShop.Application.Shop.Queries.GetAll;
+using SimpleShop.Application.Shop.Queries.GetById;
 using SimpleShop.MVC.Extensions;
-using SimpleShop.MVC.Factories;
+using SimpleShop.MVC.Factories.Interfaces;
 
 namespace SimpleShop.MVC.Controllers
 {

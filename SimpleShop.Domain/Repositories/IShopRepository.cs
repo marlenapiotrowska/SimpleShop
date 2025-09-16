@@ -5,11 +5,13 @@ namespace SimpleShop.Domain.Repositories
     public interface IShopRepository
     {
         Task AddAsync(Shop shop);
-        Task<IEnumerable<Shop>> GetAll();
+        Task<IEnumerable<Shop>> GetAllAsync();
         Task<Shop> GetByIdAsync(Guid shopId);
-        Task<Shop?> GetByNameAsync(string name);
-        Task<Shop?> GetByDescriptionAsync(string description);
+        Task<Shop?> GetByNameAsync(string name, Guid id);
+        Task<Shop?> GetByDescriptionAsync(string description, Guid id);
+        Task<IEnumerable<Shop>?> GetWithProductAssignedAsync(Guid productId);
         Task UpdateAsync(Shop shop);
         Task DeleteAsync(Shop shop);
+        Task SaveChangesAsync();
     }
 }
