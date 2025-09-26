@@ -7,9 +7,8 @@ namespace SimpleShop.Application.Features.ShopProduct.Create
         public ShopProductValidator()
         {
             RuleFor(sp => sp.Price)
-                .GreaterThan(0)
-                .WithMessage("Price should be greater than 0")
-                .When(sp => sp.IsSelected);
+               .GreaterThan(0)
+               .WithMessage("Price should be greater than 0");
         }
     }
 }
