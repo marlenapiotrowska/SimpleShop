@@ -35,7 +35,7 @@
         public DateTime DateCreated { get; }
         public string UserCreatedId { get; }
 
-        internal void UpdatePrice(decimal price)
+        public void UpdatePrice(decimal price)
         {
             Price = price;
         }

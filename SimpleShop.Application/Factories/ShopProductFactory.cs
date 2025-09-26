@@ -6,19 +6,6 @@ namespace SimpleShop.Application.Factories
 {
     internal class ShopProductFactory : IShopProductFactory
     {
-        public ShopProductEntity Create(ShopProductDto shopProduct, string userCreatedId)
-        {
-            return new ShopProductEntity(
-                shopProduct.Id,
-                shopProduct.ProductId,
-                shopProduct.ShopId,
-                shopProduct.Name,
-                shopProduct.Description,
-                shopProduct.Price,
-                DateTime.Now,
-                userCreatedId);
-        }
-
         public ShopProductEntity CreateNew(ShopProductDto shopProduct, string userCreatedId)
         {
             return new ShopProductEntity(

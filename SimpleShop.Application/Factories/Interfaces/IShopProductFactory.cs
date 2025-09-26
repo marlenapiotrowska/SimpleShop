@@ -5,7 +5,6 @@ namespace SimpleShop.Application.Factories.Interfaces
 {
     internal interface IShopProductFactory
     {
-        ShopProductEntity Create(ShopProductDto shopProduct, string userCreatedId);
         ShopProductEntity CreateNew(ShopProductDto shopProduct, string userCreatedId);
     }
 }

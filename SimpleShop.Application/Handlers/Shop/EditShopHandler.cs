@@ -41,11 +41,11 @@ namespace SimpleShop.Application.Handlers.Shop
             return Result.Success;
         }
 
-        private IEnumerable<ShopProductEntity> GetProductsToUpdate(EditShopRequest request, IEnumerable<ShopProductEntity> productsAssigned, string userId)
+        private Dictionary<Guid, decimal> GetProductsToUpdate(EditShopRequest request, IEnumerable<ShopProductEntity> productsAssigned, string userId)
         {
             return request.AssignedShopProducts
                 .Where(editedProduct => productsAssigned.Any(product => editedProduct.Id == product.Id && product.Price != editedProduct.Price))
-                .Select(product => shopProductFactory.Create(product, userId));
+                .ToDictionary(product => product.Id, product => product.Price);
         }
 
         private IEnumerable<Guid> GetProductsIdsToDelete(EditShopRequest request, IEnumerable<ShopProductEntity> productsAssigned)

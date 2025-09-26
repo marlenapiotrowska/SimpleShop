@@ -50,14 +50,14 @@
             AssignedProducts.RemoveAll(sp => idsToRemove.Contains(sp.Id));
         }
 
-        public void UpdateAssignedProducts(IEnumerable<ShopProduct> products)
+        public void UpdateAssignedProducts(Dictionary<Guid, decimal> productsPrices)
         {
-            foreach (var product in products)
+            foreach (var productsPrice in productsPrices)
             {
                 var productToUpdate = AssignedProducts
-                    .SingleOrDefault(p => p.Id == product.Id);
+                    .SingleOrDefault(p => p.Id == productsPrice.Key);
 
-                productToUpdate?.UpdatePrice(product.Price);
+                productToUpdate?.UpdatePrice(productsPrice.Value);
             }
         }
     }
