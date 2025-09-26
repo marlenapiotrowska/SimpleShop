@@ -24,15 +24,16 @@ namespace SimpleShop.Application.Handlers.Shop
         {
             var shop = await shopRepository.GetByIdAsync(request.Id);
             accessValidator.Validate(shop);
+            var userId = shop.UserCreatedId;
 
             var productsAssigned = await shopProductsRepository.GetAssignedToShopAsync(request.Id);
             shop.AddAssignedProducts(productsAssigned);
 
             shop.EditName(request.Name);
             shop.EditDescription(request.Description);
-            shop.UpdateAssignedProducts(GetProductsToUpdate(request, productsAssigned));
+            shop.UpdateAssignedProducts(GetProductsToUpdate(request, productsAssigned, userId));
             shop.DeleteProducts(GetProductsIdsToDelete(request, productsAssigned));
-            shop.AddAssignedProducts(GetProductsToAdd(request, productsAssigned));
+            shop.AddAssignedProducts(GetProductsToAdd(request, productsAssigned, userId));
 
             await shopRepository.UpdateAsync(shop);
             await shopRepository.SaveChangesAsync();
@@ -40,11 +41,11 @@ namespace SimpleShop.Application.Handlers.Shop
             return Result.Success;
         }
 
-        private IEnumerable<ShopProductEntity> GetProductsToUpdate(EditShopRequest request, IEnumerable<ShopProductEntity> productsAssigned)
+        private IEnumerable<ShopProductEntity> GetProductsToUpdate(EditShopRequest request, IEnumerable<ShopProductEntity> productsAssigned, string userId)
         {
             return request.AssignedShopProducts
                 .Where(editedProduct => productsAssigned.Any(product => editedProduct.Id == product.Id && product.Price != editedProduct.Price))
-                .Select(shopProductFactory.Create);
+                .Select(product => shopProductFactory.Create(product, userId));
         }
 
         private IEnumerable<Guid> GetProductsIdsToDelete(EditShopRequest request, IEnumerable<ShopProductEntity> productsAssigned)
@@ -54,11 +55,11 @@ namespace SimpleShop.Application.Handlers.Shop
                 .Select(sp => sp.Id);
         }
 
-        private IEnumerable<ShopProductEntity> GetProductsToAdd(EditShopRequest request, IEnumerable<ShopProductEntity> productsAssigned)
+        private IEnumerable<ShopProductEntity> GetProductsToAdd(EditShopRequest request, IEnumerable<ShopProductEntity> productsAssigned, string userId)
         {
             return request.AssignedShopProducts
                 .Where(assigned => !productsAssigned.Any(p => p.Id == assigned.Id))
-                .Select(shopProductFactory.Create);
+                .Select(product => shopProductFactory.CreateNew(product, userId));
         }
     }
 }

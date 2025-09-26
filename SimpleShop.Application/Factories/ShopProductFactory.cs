@@ -6,7 +6,7 @@ namespace SimpleShop.Application.Factories
 {
     internal class ShopProductFactory : IShopProductFactory
     {
-        public ShopProductEntity Create(ShopProductDto shopProduct)
+        public ShopProductEntity Create(ShopProductDto shopProduct, string userCreatedId)
         {
             return new ShopProductEntity(
                 shopProduct.Id,
@@ -14,7 +14,20 @@ namespace SimpleShop.Application.Factories
                 shopProduct.ShopId,
                 shopProduct.Name,
                 shopProduct.Description,
-                shopProduct.Price);
+                shopProduct.Price,
+                DateTime.Now,
+                userCreatedId);
+        }
+
+        public ShopProductEntity CreateNew(ShopProductDto shopProduct, string userCreatedId)
+        {
+            return new ShopProductEntity(
+                shopProduct.ProductId,
+                shopProduct.ShopId,
+                shopProduct.Name,
+                shopProduct.Description,
+                shopProduct.Price,
+                userCreatedId);
         }
     }
 }

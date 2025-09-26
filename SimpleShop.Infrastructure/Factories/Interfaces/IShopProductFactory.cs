@@ -7,6 +7,6 @@ namespace SimpleShop.Infrastructure.Factories.Interfaces
     internal interface IShopProductFactory
     {
         ShopProduct Create(ShopProductDb shopProduct);
-        ShopProduct Create(ProductDb product, Guid shopId);
+        ShopProduct CreateNew(ProductDb product, Guid shopId, string userCreatedId);
     }
 }

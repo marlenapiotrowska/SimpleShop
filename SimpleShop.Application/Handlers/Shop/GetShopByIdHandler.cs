@@ -25,7 +25,7 @@ namespace SimpleShop.Application.Handlers.Shop
             var shop = await shopRepository.GetByIdAsync(shopId);
 
             var productsAssigned = await shopProductsRepository.GetAssignedToShopAsync(shopId);
-            var availableProducts = await shopProductsRepository.GetNotAssignedToShopAsync(shopId);
+            var availableProducts = await shopProductsRepository.GetNotAssignedToShopAsync(shopId, currentUser.Id);
 
             shop.AddAssignedProducts(productsAssigned);
 

@@ -15,16 +15,20 @@ namespace SimpleShop.Infrastructure.Factories
                 shopProduct.ShopId,
                 shopProduct.Product.Name,
                 shopProduct.Product.Description,
-                shopProduct.Price);
+                shopProduct.Price,
+                shopProduct.DateCreated,
+                shopProduct.UserCreatedId);
         }
 
-        public ShopProduct Create(ProductDb product, Guid shopId)
+        public ShopProduct CreateNew(ProductDb product, Guid shopId, string userCreatedId)
         {
             return new ShopProduct(
-               product.Id,
-               shopId,
-               product.Name,
-               product.Description);
+                product.Id,
+                shopId,
+                product.Name,
+                product.Description,
+                0,
+                userCreatedId);
         }
     }
 }

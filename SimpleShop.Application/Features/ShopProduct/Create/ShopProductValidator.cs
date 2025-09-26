@@ -8,7 +8,8 @@ namespace SimpleShop.Application.Features.ShopProduct.Create
         {
             RuleFor(sp => sp.Price)
                 .GreaterThan(0)
-                .WithMessage("Price should be greater than 0");
+                .WithMessage("Price should be greater than 0")
+                .When(sp => sp.IsSelected);
         }
     }
 }
