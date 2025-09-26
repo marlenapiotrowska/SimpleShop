@@ -104,11 +104,11 @@ namespace SimpleShop.MVC.Controllers
         [Authorize]
         public async Task<IActionResult> Delete(DeleteProductRequest request, CancellationToken cancellationToken)
         {
-            var result = _deleteHandler.Handle(request, cancellationToken);
+            var result = await _deleteHandler.Handle(request, cancellationToken);
 
-            if (result.Exception != null)
+            if (result.IsError)
             {
-                this.SetNotification("error", result.Exception.Message);
+                this.SetNotification("error", result.FirstError.Description);
                 return RedirectToAction(nameof(Index));
             }
 
