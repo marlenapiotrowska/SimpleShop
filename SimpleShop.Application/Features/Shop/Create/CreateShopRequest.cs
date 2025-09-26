@@ -1,10 +1,9 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using SimpleShop.Application.Features.ShopProduct;
 
-namespace SimpleShop.Application.Shop.Commands.Create
+namespace SimpleShop.Application.Features.Shop.Create
 {
-    public class CreateShopCommand : IRequest
+    public class CreateShopRequest
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public string Name { get; set; }

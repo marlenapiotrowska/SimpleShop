@@ -1,10 +1,10 @@
-﻿using SimpleShop.Application.Shop.Commands.Create;
+﻿using SimpleShop.Application.Features.Shop.Create;
 using ShopEntity = SimpleShop.Domain.Entities.Shop;
 
 namespace SimpleShop.Application.Factories.Interfaces
 {
     public interface IShopFactory
     {
-        ShopEntity CreateNew(CreateShopCommand command, string userId);
+        ShopEntity CreateNew(CreateShopRequest command, string userId);
     }
 }

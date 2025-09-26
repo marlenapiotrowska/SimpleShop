@@ -1,8 +1,6 @@
-﻿using MediatR;
-
-namespace SimpleShop.Application.Shop.Commands.Delete
+﻿namespace SimpleShop.Application.Features.Shop.Delete
 {
-    public class DeleteShopCommand : IRequest
+    public class DeleteShopRequest
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

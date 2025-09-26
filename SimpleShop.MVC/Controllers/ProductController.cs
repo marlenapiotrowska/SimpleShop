@@ -108,7 +108,7 @@ namespace SimpleShop.MVC.Controllers
 
             if (result.IsError)
             {
-                this.SetNotification("error", result.FirstError.Description);
+                this.SetNotification("error", result.FirstError.Code);
                 return RedirectToAction(nameof(Index));
             }
 

@@ -1,12 +1,10 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SimpleShop.Application.Features.Shop;
-using SimpleShop.Application.Shop.Commands.Create;
-using SimpleShop.Application.Shop.Commands.Delete;
-using SimpleShop.Application.Shop.Commands.Edit;
-using SimpleShop.Application.Shop.Queries.GetAll;
-using SimpleShop.Application.Shop.Queries.GetById;
+using SimpleShop.Application.Features.Shop.Create;
+using SimpleShop.Application.Features.Shop.Delete;
+using SimpleShop.Application.Features.Shop.Edit;
+using SimpleShop.Application.Handlers.Shop;
 using SimpleShop.MVC.Extensions;
 using SimpleShop.MVC.Factories.Interfaces;
 
@@ -15,45 +13,57 @@ namespace SimpleShop.MVC.Controllers
     [Route("Shops/[action]")]
     public class ShopController : Controller
     {
-        private readonly IMediator _mediator;
         private readonly IEditShopCommandFactory _editFactory;
         private readonly IDeleteShopCommandFactory _deleteFactory;
+        private readonly IGetAllShopsHandler _getAllHandler;
+        private readonly IGetShopByIdHandler _getByIdHandler;
+        private readonly ICreateShopHandler _createHandler;
+        private readonly IEditShopHandler _editHandler;
+        private readonly IDeleteShopHandler _deleteHandler;
 
         public ShopController(
-            IMediator mediator, 
             IEditShopCommandFactory editFactory, 
-            IDeleteShopCommandFactory deleteFactory)
+            IDeleteShopCommandFactory deleteFactory,
+            IGetAllShopsHandler getAllHandler,
+            IGetShopByIdHandler getByIdHandler,
+            ICreateShopHandler createHandler,
+            IEditShopHandler editHandler,
+            IDeleteShopHandler deleteHandler)
         {
-            _mediator = mediator;
             _editFactory = editFactory;
             _deleteFactory = deleteFactory;
+            _getAllHandler = getAllHandler;
+            _getByIdHandler = getByIdHandler;
+            _createHandler = createHandler;
+            _editHandler = editHandler;
+            _deleteHandler = deleteHandler;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-            var shops = await _mediator.Send(new GetAllShopsQuery());
+            var shops = await _getAllHandler.Handle(cancellationToken);
             return View(shops);
         }
 
         [HttpPost]
         [Authorize(Roles = "Admin, Owner")]
-        public async Task<IActionResult> Create(CreateShopCommand command)
+        public async Task<IActionResult> Create(CreateShopRequest request, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
-                return View(command);
+                return View(request);
             }
 
-            await _mediator.Send(command);
+            await _createHandler.Handle(request, cancellationToken);
 
-            this.SetNotification("success", $"Created shop: {command.Name}({command.Description})");
+            this.SetNotification("success", $"Created shop: {request.Name}({request.Description})");
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> Edit(Guid shopId)
+        public async Task<IActionResult> Edit(Guid shopId, CancellationToken cancellationToken)
         {
-            var (shop, redirect) = await TryGetShopOrRedirect(shopId);
+            var (shop, redirect) = await TryGetShopOrRedirect(shopId, cancellationToken);
 
             if (redirect != null)
             {
@@ -64,9 +74,9 @@ namespace SimpleShop.MVC.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> Delete(Guid shopId)
+        public async Task<IActionResult> Delete(Guid shopId, CancellationToken cancellationToken)
         {
-            var (shop, redirect) = await TryGetShopOrRedirect(shopId);
+            var (shop, redirect) = await TryGetShopOrRedirect(shopId, cancellationToken);
 
             if (redirect != null)
             {
@@ -78,25 +88,25 @@ namespace SimpleShop.MVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(EditShopCommand command)
+        public async Task<IActionResult> Edit(EditShopRequest request, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
-                return View(command);
+                return View(request);
             }
 
-            await _mediator.Send(command);
+            await _editHandler.Handle(request, cancellationToken);
 
-            this.SetNotification("success", $"Edited shop: {command.Name}({command.Description})");
+            this.SetNotification("success", $"Edited shop: {request.Name}({request.Description})");
             return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(DeleteShopCommand command)
+        public async Task<IActionResult> Delete(DeleteShopRequest request, CancellationToken cancellationToken)
         {
-            await _mediator.Send(command);
+            await _deleteHandler.Handle(request, cancellationToken);
 
-            this.SetNotification("success", $"Deleted shop: {command.Name}({command.Description})");
+            this.SetNotification("success", $"Deleted shop: {request.Name}({request.Description})");
             return RedirectToAction(nameof(Index));
         }
 
@@ -107,9 +117,9 @@ namespace SimpleShop.MVC.Controllers
             return View();
         }
 
-        private async Task<(ShopDto? Shop, IActionResult? Redirect)> TryGetShopOrRedirect(Guid shopId)
+        private async Task<(ShopDto? Shop, IActionResult? Redirect)> TryGetShopOrRedirect(Guid shopId, CancellationToken cancellationToken)
         {
-            var shop = await _mediator.Send(new GetShopByIdQuery(shopId));
+            var shop = await _getByIdHandler.Handle(shopId, cancellationToken);
 
             if (!shop.IsEditable)
             {

@@ -7,8 +7,8 @@ using SimpleShop.Application.ApplicationUser;
 using SimpleShop.Application.Factories;
 using SimpleShop.Application.Factories.Interfaces;
 using SimpleShop.Application.Features.Product.Create;
+using SimpleShop.Application.Features.Shop.Create;
 using SimpleShop.Application.Handlers;
-using SimpleShop.Application.Shop.Commands.Create;
 
 namespace SimpleShop.Application.Extensions
 {
@@ -19,7 +19,7 @@ namespace SimpleShop.Application.Extensions
             services.AddScoped<IEventPublisher, EventPublisher>();
             services.RegisterHandlersFromAssemblyContaining(typeof(ServiceCollectionExtension));
           
-            services.AddMediatR(typeof(CreateShopCommand));
+            services.AddMediatR(typeof(CreateShopRequest));
             services.AddScoped<IUserContext, UserContext>();
             services.AddScoped<IShopAccessValidator, ShopAccessValidator>();
             services.AddScoped<IProductAccessValidator, ProductAccessValidator>();
@@ -29,7 +29,7 @@ namespace SimpleShop.Application.Extensions
             services.AddTransient<IProductFactory, ProductFactory>();
             services.AddTransient<IShopProductFactory, ShopProductFactory>();
 
-            services.AddValidatorsFromAssemblyContaining<CreateShopCommandValidator>()
+            services.AddValidatorsFromAssemblyContaining<CreateShopValidator>()
                 .AddFluentValidationAutoValidation()
                 .AddFluentValidationClientsideAdapters();
 

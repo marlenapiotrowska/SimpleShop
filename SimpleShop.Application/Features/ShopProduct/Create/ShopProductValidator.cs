@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
-using SimpleShop.Application.Features.ShopProduct;
 
-namespace SimpleShop.Application.Shop.Commands.Create
+namespace SimpleShop.Application.Features.ShopProduct.Create
 {
     public class ShopProductValidator : AbstractValidator<ShopProductDto>
     {

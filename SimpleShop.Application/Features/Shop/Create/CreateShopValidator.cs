@@ -1,15 +1,16 @@
 ﻿using FluentValidation;
+using SimpleShop.Application.Features.ShopProduct.Create;
 using SimpleShop.Domain.Repositories;
 
-namespace SimpleShop.Application.Shop.Commands.Create
+namespace SimpleShop.Application.Features.Shop.Create
 {
-    public class CreateShopCommandValidator : AbstractValidator<CreateShopCommand>
+    public class CreateShopValidator : AbstractValidator<CreateShopRequest>
     {
         private const int _minLength = 3;
         private const int _maxNameLength = 30;
         private const int _maxDescriptionLength = 100;
 
-        public CreateShopCommandValidator(IShopRepository repository)
+        public CreateShopValidator(IShopRepository repository)
         {
             RuleFor(s => s.Name)
                 .NotEmpty()
