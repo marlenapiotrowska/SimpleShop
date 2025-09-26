@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SimpleShop.Application.Shop;
+using SimpleShop.Application.Features.Shop;
 using SimpleShop.Application.Shop.Commands.Create;
 using SimpleShop.Application.Shop.Commands.Delete;
 using SimpleShop.Application.Shop.Commands.Edit;
@@ -19,7 +19,10 @@ namespace SimpleShop.MVC.Controllers
         private readonly IEditShopCommandFactory _editFactory;
         private readonly IDeleteShopCommandFactory _deleteFactory;
 
-        public ShopController(IMediator mediator, IEditShopCommandFactory editFactory, IDeleteShopCommandFactory deleteFactory)
+        public ShopController(
+            IMediator mediator, 
+            IEditShopCommandFactory editFactory, 
+            IDeleteShopCommandFactory deleteFactory)
         {
             _mediator = mediator;
             _editFactory = editFactory;

@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using SimpleShop.Application.Features.Shop;
 
 namespace SimpleShop.Application.Shop.Queries.GetAll
 {

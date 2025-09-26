@@ -1,4 +1,4 @@
-﻿namespace SimpleShop.Application.Handlers.Product.Create
+﻿namespace SimpleShop.Application.Features.Product.Create
 {
     public class CreateProductRequest
     {

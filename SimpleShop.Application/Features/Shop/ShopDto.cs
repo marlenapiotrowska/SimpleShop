@@ -1,6 +1,6 @@
-﻿using SimpleShop.Application.ShopProduct;
+﻿using SimpleShop.Application.Features.ShopProduct;
 
-namespace SimpleShop.Application.Shop
+namespace SimpleShop.Application.Features.Shop
 {
     public record ShopDto
     {

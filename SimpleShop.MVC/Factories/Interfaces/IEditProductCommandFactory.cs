@@ -1,10 +1,10 @@
-﻿using SimpleShop.Application.Product;
-using SimpleShop.Application.Product.Commands.Edit;
+﻿using SimpleShop.Application.Features.Product;
+using SimpleShop.Application.Features.Product.Edit;
 
 namespace SimpleShop.MVC.Factories.Interfaces
 {
     public interface IEditProductCommandFactory
     {
-        EditProductCommand Create(ProductDto product);
+        EditProductRequest Create(ProductDto product);
     }
 }

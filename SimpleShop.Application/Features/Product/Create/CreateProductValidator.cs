@@ -1,15 +1,14 @@
 ﻿using FluentValidation;
-using SimpleShop.Application.Handlers.Product.Create;
 
-namespace SimpleShop.Application.Product.Commands.Create
+namespace SimpleShop.Application.Features.Product.Create
 {
-    public class CreateProductCommandValidator : AbstractValidator<CreateProductRequest>
+    public class CreateProductValidator : AbstractValidator<CreateProductRequest>
     {
         private const int _minLength = 3;
         private const int _maxNameLength = 30;
         private const int _maxDescriptionLength = 100;
 
-        public CreateProductCommandValidator()
+        public CreateProductValidator()
         {
             RuleFor(s => s.Name)
                 .NotEmpty()

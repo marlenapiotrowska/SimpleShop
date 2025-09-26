@@ -1,4 +1,4 @@
-﻿using SimpleShop.Application.Shop;
+﻿using SimpleShop.Application.Features.Shop;
 using SimpleShop.Application.Shop.Commands.Edit;
 using SimpleShop.MVC.Factories.Interfaces;
 

@@ -1,4 +1,4 @@
-﻿namespace SimpleShop.Application.ShopProduct
+﻿namespace SimpleShop.Application.Features.ShopProduct
 {
     public class ShopProductDto
     {

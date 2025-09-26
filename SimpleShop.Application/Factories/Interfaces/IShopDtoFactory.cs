@@ -1,4 +1,4 @@
-﻿using SimpleShop.Application.Shop;
+﻿using SimpleShop.Application.Features.Shop;
 using ShopEntity = SimpleShop.Domain.Entities.Shop;
 using ShopProductEntity = SimpleShop.Domain.Entities.ShopProduct;
 

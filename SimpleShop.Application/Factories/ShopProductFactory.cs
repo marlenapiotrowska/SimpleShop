@@ -1,5 +1,5 @@
 ﻿using SimpleShop.Application.Factories.Interfaces;
-using SimpleShop.Application.ShopProduct;
+using SimpleShop.Application.Features.ShopProduct;
 using ShopProductEntity = SimpleShop.Domain.Entities.ShopProduct;
 
 namespace SimpleShop.Application.Factories

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using SimpleShop.Application.ApplicationUser;
 using SimpleShop.Application.Factories.Interfaces;
+using SimpleShop.Application.Features.Shop;
 using SimpleShop.Domain.Repositories;
 
 namespace SimpleShop.Application.Shop.Queries.GetAll

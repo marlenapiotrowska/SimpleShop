@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using SimpleShop.Application.ShopProduct;
+using SimpleShop.Application.Features.ShopProduct;
 
 namespace SimpleShop.Application.Shop.Commands.Create
 {

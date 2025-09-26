@@ -6,8 +6,8 @@ using SimpleShop.Application.Abstractions;
 using SimpleShop.Application.ApplicationUser;
 using SimpleShop.Application.Factories;
 using SimpleShop.Application.Factories.Interfaces;
+using SimpleShop.Application.Features.Product.Create;
 using SimpleShop.Application.Handlers;
-using SimpleShop.Application.Product.Commands.Create;
 using SimpleShop.Application.Shop.Commands.Create;
 
 namespace SimpleShop.Application.Extensions
@@ -33,7 +33,7 @@ namespace SimpleShop.Application.Extensions
                 .AddFluentValidationAutoValidation()
                 .AddFluentValidationClientsideAdapters();
 
-            services.AddValidatorsFromAssemblyContaining<CreateProductCommandValidator>()
+            services.AddValidatorsFromAssemblyContaining<CreateProductValidator>()
                 .AddFluentValidationAutoValidation()
                 .AddFluentValidationClientsideAdapters();
 
