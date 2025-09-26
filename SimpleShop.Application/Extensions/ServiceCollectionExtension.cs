@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using SimpleShop.Application.Abstractions;
 using SimpleShop.Application.ApplicationUser;
@@ -19,7 +18,6 @@ namespace SimpleShop.Application.Extensions
             services.AddScoped<IEventPublisher, EventPublisher>();
             services.RegisterHandlersFromAssemblyContaining(typeof(ServiceCollectionExtension));
           
-            services.AddMediatR(typeof(CreateShopRequest));
             services.AddScoped<IUserContext, UserContext>();
             services.AddScoped<IShopAccessValidator, ShopAccessValidator>();
             services.AddScoped<IProductAccessValidator, ProductAccessValidator>();
