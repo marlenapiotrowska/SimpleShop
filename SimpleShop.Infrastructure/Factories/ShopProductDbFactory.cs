@@ -14,6 +14,8 @@ namespace SimpleShop.Infrastructure.Factories
                 ShopId = shopProduct.ShopId,
                 ProductId = shopProduct.ProductId,
                 Price = shopProduct.Price,
+                DateCreated = shopProduct.DateCreated,
+                UserCreatedId = shopProduct.UserCreatedId
             };
         }
     }

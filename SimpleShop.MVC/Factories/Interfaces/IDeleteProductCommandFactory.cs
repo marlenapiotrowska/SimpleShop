@@ -1,10 +1,10 @@
-﻿using SimpleShop.Application.Product;
-using SimpleShop.Application.Product.Commands.Delete;
+﻿using SimpleShop.Application.Features.Product;
+using SimpleShop.Application.Features.Product.Delete;
 
 namespace SimpleShop.MVC.Factories.Interfaces
 {
     public interface IDeleteProductCommandFactory
     {
-        DeleteProductCommand Create(ProductDto product);
+        DeleteProductRequest Create(ProductDto product);
     }
 }

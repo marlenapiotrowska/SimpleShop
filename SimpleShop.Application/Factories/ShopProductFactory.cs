@@ -1,20 +1,20 @@
 ﻿using SimpleShop.Application.Factories.Interfaces;
-using SimpleShop.Application.ShopProduct;
+using SimpleShop.Application.Features.ShopProduct;
 using ShopProductEntity = SimpleShop.Domain.Entities.ShopProduct;
 
 namespace SimpleShop.Application.Factories
 {
     internal class ShopProductFactory : IShopProductFactory
     {
-        public ShopProductEntity Create(ShopProductDto shopProduct)
+        public ShopProductEntity CreateNew(ShopProductDto shopProduct, string userCreatedId)
         {
             return new ShopProductEntity(
-                shopProduct.Id,
                 shopProduct.ProductId,
                 shopProduct.ShopId,
                 shopProduct.Name,
                 shopProduct.Description,
-                shopProduct.Price);
+                shopProduct.Price,
+                userCreatedId);
         }
     }
 }

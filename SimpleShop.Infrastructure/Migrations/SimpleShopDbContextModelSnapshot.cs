@@ -254,6 +254,9 @@ namespace SimpleShop.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -263,11 +266,17 @@ namespace SimpleShop.Infrastructure.Migrations
                     b.Property<Guid>("ShopId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("UserCreatedId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
 
                     b.HasIndex("ShopId");
+
+                    b.HasIndex("UserCreatedId");
 
                     b.ToTable("ShopProducts");
                 });
@@ -376,9 +385,17 @@ namespace SimpleShop.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("SimpleShop.Infrastructure.Models.ApplicationUser", "UserCreated")
+                        .WithMany()
+                        .HasForeignKey("UserCreatedId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Product");
 
                     b.Navigation("Shop");
+
+                    b.Navigation("UserCreated");
                 });
 
             modelBuilder.Entity("SimpleShop.Infrastructure.Models.Shop", b =>

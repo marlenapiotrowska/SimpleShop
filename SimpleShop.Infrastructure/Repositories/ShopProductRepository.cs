@@ -26,7 +26,7 @@ namespace SimpleShop.Infrastructure.Repositories
             return shopProductsDb.Select(_factory.Create);
         }
 
-        public async Task<IEnumerable<ShopProduct>> GetNotAssignedToShopAsync(Guid shopId)
+        public async Task<IEnumerable<ShopProduct>> GetNotAssignedToShopAsync(Guid shopId, string userCreatedId)
         {
             var assignedIds = await _context.ShopProducts
                 .Where(sp => sp.ShopId == shopId)
@@ -37,7 +37,7 @@ namespace SimpleShop.Infrastructure.Repositories
                 .Where(p => !assignedIds.Contains(p.Id))
                 .ToListAsync();
 
-            return notAssigned.Select(ps => _factory.Create(ps, shopId));
+            return notAssigned.Select(ps => _factory.CreateNew(ps, shopId, userCreatedId));
         }
     }
 }

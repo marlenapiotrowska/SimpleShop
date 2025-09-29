@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using SimpleShop.Domain.Entities;
-using System.Collections.Generic;
-
-namespace SimpleShop.Infrastructure.Models
+﻿namespace SimpleShop.Infrastructure.Models
 {
     public class Shop
     {

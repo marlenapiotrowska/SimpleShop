@@ -1,14 +1,14 @@
-﻿using SimpleShop.Application.Product;
-using SimpleShop.Application.Product.Commands.Edit;
+﻿using SimpleShop.Application.Features.Product;
+using SimpleShop.Application.Features.Product.Edit;
 using SimpleShop.MVC.Factories.Interfaces;
 
 namespace SimpleShop.MVC.Factories
 {
     internal class EditProductCommandFactory : IEditProductCommandFactory
     {
-        public EditProductCommand Create(ProductDto product)
+        public EditProductRequest Create(ProductDto product)
         {
-            return new EditProductCommand
+            return new EditProductRequest
             {
                 Id = product.Id,
                 Name = product.Name,
