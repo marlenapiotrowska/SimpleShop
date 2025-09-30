@@ -2,14 +2,13 @@
 using Newtonsoft.Json;
 using SimpleShop.MVC.Models;
 
-namespace SimpleShop.MVC.Extensions
+namespace SimpleShop.MVC.Extensions;
+
+public static class ControllerExtensions
 {
-    public static class ControllerExtensions
+    public static void SetNotification(this Controller controller, string type, string message)
     {
-        public static void SetNotification(this Controller controller, string type, string message)
-        {
-            var notification = new Notification(type, message);
-            controller.TempData["Notification"] = JsonConvert.SerializeObject(notification);
-        }
+        var notification = new Notification(type, message);
+        controller.TempData["Notification"] = JsonConvert.SerializeObject(notification);
     }
 }

@@ -7,113 +7,112 @@ using SimpleShop.Application.Handlers.Product;
 using SimpleShop.MVC.Extensions;
 using SimpleShop.MVC.Factories.Interfaces;
 
-namespace SimpleShop.MVC.Controllers
+namespace SimpleShop.MVC.Controllers;
+
+[Route("Products/[action]")]
+public class ProductController : Controller
 {
-    [Route("Products/[action]")]
-    public class ProductController : Controller
+    private readonly IEditProductCommandFactory _editFactory;
+    private readonly IDeleteProductCommandFactory _deleteFactory;
+    private readonly IGetProductByIdHandler _getByIdHandler;
+    private readonly IGetAllProductsHandler _getAllHandler;
+    private readonly ICreateProductHandler _createProductHandler;
+    private readonly IEditProductHandler _editHandler;
+    private readonly IDeleteProductHandler _deleteHandler;
+
+    public ProductController(
+        IEditProductCommandFactory editFactory,
+        IDeleteProductCommandFactory deleteFactory,
+        IGetProductByIdHandler getByIdHandler,
+        IGetAllProductsHandler getAllHandler,
+        ICreateProductHandler createHandler,
+        IEditProductHandler editHandler,
+        IDeleteProductHandler deleteHandler)
     {
-        private readonly IEditProductCommandFactory _editFactory;
-        private readonly IDeleteProductCommandFactory _deleteFactory;
-        private readonly IGetProductByIdHandler _getByIdHandler;
-        private readonly IGetAllProductsHandler _getAllHandler;
-        private readonly ICreateProductHandler _createProductHandler;
-        private readonly IEditProductHandler _editHandler;
-        private readonly IDeleteProductHandler _deleteHandler;
+        _editFactory = editFactory;
+        _deleteFactory = deleteFactory;
+        _getByIdHandler = getByIdHandler;
+        _getAllHandler = getAllHandler;
+        _createProductHandler = createHandler;
+        _editHandler = editHandler;
+        _deleteHandler = deleteHandler;
+    }
 
-        public ProductController(
-            IEditProductCommandFactory editFactory,
-            IDeleteProductCommandFactory deleteFactory,
-            IGetProductByIdHandler getByIdHandler,
-            IGetAllProductsHandler getAllHandler,
-            ICreateProductHandler createHandler,
-            IEditProductHandler editHandler,
-            IDeleteProductHandler deleteHandler)
+    [HttpGet]
+    public async Task<IActionResult> Index(CancellationToken cancellationToken)
+    {
+        var products = await _getAllHandler.HandleAsync(cancellationToken);
+        return View(products);
+    }
+
+    [HttpGet]
+    [Authorize(Roles = "Admin, Owner")]
+    public IActionResult Create()
+    {
+        return View();
+    }
+
+    [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> Edit(Guid productId, CancellationToken cancellationToken)
+    {
+        var product = await _getByIdHandler.HandleAsync(productId, cancellationToken);
+        var model = _editFactory.Create(product);
+        return View(model);
+    }
+
+    [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> Delete(Guid productId, CancellationToken cancellationToken)
+    {
+        var product = await _getByIdHandler.HandleAsync(productId, cancellationToken);
+        var model = _deleteFactory.Create(product);
+        return View(model);
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "Admin, Owner")]
+    public async Task<IActionResult> Create(CreateProductRequest command, CancellationToken cancellationToken)
+    {
+        if (!ModelState.IsValid)
         {
-            _editFactory = editFactory;
-            _deleteFactory = deleteFactory;
-            _getByIdHandler = getByIdHandler;
-            _getAllHandler = getAllHandler;
-            _createProductHandler = createHandler;
-            _editHandler = editHandler;
-            _deleteHandler = deleteHandler;
+            return View(command);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Index(CancellationToken cancellationToken)
+        await _createProductHandler.HandleAsync(command, cancellationToken);
+
+        this.SetNotification("success", $"Created product: {command.Name}({command.Description})");
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpPost]
+    [Authorize]
+    public async Task<IActionResult> Edit(EditProductRequest request, CancellationToken cancellationToken)
+    {
+        if (!ModelState.IsValid)
         {
-            var products = await _getAllHandler.Handle(cancellationToken);
-            return View(products);
+            return View(request);
         }
 
-        [HttpGet]
-        [Authorize(Roles = "Admin, Owner")]
-        public IActionResult Create()
+        await _editHandler.HandleAsync(request, cancellationToken);
+
+        this.SetNotification("success", $"Edited product: {request.Name}({request.Description})");
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpPost]
+    [Authorize]
+    public async Task<IActionResult> Delete(DeleteProductRequest request, CancellationToken cancellationToken)
+    {
+        var result = await _deleteHandler.HandleAsync(request, cancellationToken);
+
+        if (result.IsError)
         {
-            return View();
-        }
-
-        [HttpGet]
-        [Authorize]
-        public async Task<IActionResult> Edit(Guid productId, CancellationToken cancellationToken)
-        {
-            var product = await _getByIdHandler.Handle(productId, cancellationToken);
-            var model = _editFactory.Create(product);
-            return View(model);
-        }
-
-        [HttpGet]
-        [Authorize]
-        public async Task<IActionResult> Delete(Guid productId, CancellationToken cancellationToken)
-        {
-            var product = await _getByIdHandler.Handle(productId, cancellationToken);
-            var model = _deleteFactory.Create(product);
-            return View(model);
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "Admin, Owner")]
-        public async Task<IActionResult> Create(CreateProductRequest command, CancellationToken cancellationToken)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(command);
-            }
-
-            await _createProductHandler.Handle(command, cancellationToken);
-
-            this.SetNotification("success", $"Created product: {command.Name}({command.Description})");
+            this.SetNotification("error", result.FirstError.Code);
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> Edit(EditProductRequest request, CancellationToken cancellationToken)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(request);
-            }
-
-            await _editHandler.Handle(request, cancellationToken);
-
-            this.SetNotification("success", $"Edited product: {request.Name}({request.Description})");
-            return RedirectToAction(nameof(Index));
-        }
-
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> Delete(DeleteProductRequest request, CancellationToken cancellationToken)
-        {
-            var result = await _deleteHandler.Handle(request, cancellationToken);
-
-            if (result.IsError)
-            {
-                this.SetNotification("error", result.FirstError.Code);
-                return RedirectToAction(nameof(Index));
-            }
-
-            this.SetNotification("success", $"Deleted product: {request.Name}({request.Description})");
-            return RedirectToAction(nameof(Index));
-        }
+        this.SetNotification("success", $"Deleted product: {request.Name}({request.Description})");
+        return RedirectToAction(nameof(Index));
     }
 }

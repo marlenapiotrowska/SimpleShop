@@ -8,22 +8,21 @@ namespace SimpleShop.Application.Handlers.Product
 {
     public interface IGetAllProductsHandler : IHandler
     {
-        Task<IEnumerable<ProductDto>> Handle(CancellationToken cancellationToken);
+        Task<IEnumerable<ProductDto>> HandleAsync(CancellationToken cancellationToken);
     }
 
     internal class GetAllProductsHandler(
-        IUserContext userContext, 
-        IProductRepository repository, 
-        IProductDtoFactory factory) 
+        IUserContext userContext,
+        IProductRepository repository)
         : IGetAllProductsHandler
     {
-        public async Task<IEnumerable<ProductDto>> Handle(CancellationToken cancellationToken)
+        public async Task<IEnumerable<ProductDto>> HandleAsync(CancellationToken cancellationToken)
         {
             var currentUser = userContext.GetCurrentUser();
 
             var products = await repository.GetAllAsync();
 
-            return products.Select(p => factory.Create(p, currentUser?.Id));
+            return products.Select(p => ProductDto.CreateFromEntity(p, currentUser?.Id));
         }
     }
 }

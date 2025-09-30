@@ -1,29 +1,26 @@
 ﻿using SimpleShop.Application.Abstractions;
 using SimpleShop.Application.ApplicationUser;
-using SimpleShop.Application.Factories.Interfaces;
 using SimpleShop.Application.Features.Product;
 using SimpleShop.Domain.Repositories;
 
-namespace SimpleShop.Application.Handlers.Product
+namespace SimpleShop.Application.Handlers.Product;
+
+public interface IGetProductByIdHandler : IHandler
 {
-    public interface IGetProductByIdHandler : IHandler
+    Task<ProductDto> HandleAsync(Guid productId, CancellationToken cancellationToken);
+}
+
+internal class GetProductByIdHandler(
+    IUserContext userContext,
+    IProductRepository repository)
+    : IGetProductByIdHandler
+{
+    public async Task<ProductDto> HandleAsync(Guid productId, CancellationToken cancellationToken)
     {
-        Task<ProductDto> Handle(Guid productId, CancellationToken cancellationToken);
-    }
+        var currentUser = userContext.GetCurrentUser();
 
-    internal class GetProductByIdHandler(
-        IUserContext userContext, 
-        IProductRepository repository, 
-        IProductDtoFactory factory)
-        : IGetProductByIdHandler
-    {
-        public async Task<ProductDto> Handle(Guid productId, CancellationToken cancellationToken)
-        {
-            var currentUser = userContext.GetCurrentUser();
+        var product = await repository.GetByIdAsync(productId);
 
-            var product = await repository.GetByIdAsync(productId);
-
-            return factory.Create(product, currentUser?.Id);
-        }
+        return ProductDto.CreateFromEntity(product, currentUser?.Id);
     }
 }

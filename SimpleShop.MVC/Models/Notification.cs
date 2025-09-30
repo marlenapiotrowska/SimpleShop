@@ -1,14 +1,13 @@
-﻿namespace SimpleShop.MVC.Models
-{
-    public class Notification
-    {
-        public Notification(string type, string message)
-        {
-            Type = type;
-            Message = message;
-        }
+﻿namespace SimpleShop.MVC.Models;
 
-        public string Type { get; }
-        public string Message { get; }
+public class Notification
+{
+    public Notification(string type, string message)
+    {
+        Type = type;
+        Message = message;
     }
+
+    public string Type { get; }
+    public string Message { get; }
 }

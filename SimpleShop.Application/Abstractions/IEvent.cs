@@ -1,4 +1,3 @@
-﻿namespace SimpleShop.Application.Abstractions
-{
-    public interface IEvent;
-}
+﻿namespace SimpleShop.Application.Abstractions;
+
+public interface IEvent;

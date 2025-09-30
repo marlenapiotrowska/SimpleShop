@@ -1,4 +1,3 @@
-﻿namespace SimpleShop.Application.Abstractions
-{
-    public interface IHandler;
-}
+﻿namespace SimpleShop.Application.Abstractions;
+
+public interface IHandler;

@@ -1,10 +1,9 @@
-﻿namespace SimpleShop.Application.Exceptions
+﻿namespace SimpleShop.Application.Exceptions;
+
+public class UserNotFoundException : Exception
 {
-    public class UserNotFoundException : Exception
+    internal UserNotFoundException()
+        : base("Current logged user was not found")
     {
-        internal UserNotFoundException()
-            : base("Current logged user was not found")
-        {
-        }
     }
 }

@@ -1,10 +1,9 @@
 ﻿using SimpleShop.Domain.Entities;
 
-namespace SimpleShop.Domain.Repositories
+namespace SimpleShop.Domain.Repositories;
+
+public interface IShopProductRepository
 {
-    public interface IShopProductRepository
-    {
-        Task<IEnumerable<ShopProduct>> GetAssignedToShopAsync(Guid shopId);
-        Task<IEnumerable<ShopProduct>> GetNotAssignedToShopAsync(Guid shopId, string userCreatedId);
-    }
+    Task<IEnumerable<ShopProduct>> GetAssignedToShopAsync(Guid shopId);
+    Task<IEnumerable<ShopProduct>> GetNotAssignedToShopAsync(Guid shopId, string userCreatedId);
 }

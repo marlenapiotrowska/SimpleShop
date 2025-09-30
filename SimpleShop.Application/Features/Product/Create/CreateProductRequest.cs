@@ -1,8 +1,7 @@
-﻿namespace SimpleShop.Application.Features.Product.Create
+﻿namespace SimpleShop.Application.Features.Product.Create;
+
+public class CreateProductRequest
 {
-    public class CreateProductRequest
-    {
-        public string Name { get; set; }
-        public string Description { get; set; }
-    }
+    public string Name { get; set; }
+    public string Description { get; set; }
 }

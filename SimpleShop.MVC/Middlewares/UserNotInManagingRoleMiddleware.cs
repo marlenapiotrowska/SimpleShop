@@ -1,19 +1,18 @@
 ﻿using SimpleShop.Application.Exceptions;
 
-namespace SimpleShop.MVC.Middlewares
+namespace SimpleShop.MVC.Middlewares;
+
+public class UserNotInManagingRoleMiddleware : IMiddleware
 {
-    public class UserNotInManagingRoleMiddleware : IMiddleware
+    public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
-        public async Task InvokeAsync(HttpContext context, RequestDelegate next)
+        try
         {
-            try
-            {
-                await next.Invoke(context);
-            }
-            catch (UserNotInManagingRoleException)
-            {
-                context.Response.Redirect("/Home/NoAccessForNotManagingRole");
-            }
+            await next.Invoke(context);
+        }
+        catch (UserNotInManagingRoleException)
+        {
+            context.Response.Redirect("/Home/NoAccessForNotManagingRole");
         }
     }
 }
