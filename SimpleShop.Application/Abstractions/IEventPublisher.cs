@@ -1,7 +1,7 @@
-﻿namespace SimpleShop.Application.Abstractions
+﻿namespace SimpleShop.Application.Abstractions;
+
+public interface IEventPublisher
 {
-    public interface IEventPublisher
-    {
-        Task PublishAsync<TEvent>(TEvent @event, CancellationToken cancellationToken) where TEvent : IEvent;
-    }
+    Task PublishAsync<TEvent>(TEvent @event, CancellationToken cancellationToken)
+        where TEvent : IEvent;
 }

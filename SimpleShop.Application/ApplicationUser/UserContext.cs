@@ -1,67 +1,63 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 using SimpleShop.Application.Exceptions;
-using System.Security.Claims;
 
-namespace SimpleShop.Application.ApplicationUser
+namespace SimpleShop.Application.ApplicationUser;
+
+public interface IUserContext
 {
-    public interface IUserContext
+    CurrentUser GetCurrentUser(bool managingRole);
+    CurrentUser? GetCurrentUser();
+}
+
+public class UserContext : IUserContext
+{
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
+    public UserContext(IHttpContextAccessor httpContextAccessor)
     {
-        CurrentUser GetCurrentUser(bool managingRole);
-        CurrentUser? GetCurrentUser();
+        _httpContextAccessor = httpContextAccessor;
     }
 
-    public class UserContext : IUserContext
+    public CurrentUser GetCurrentUser(bool managingRole)
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        var user = _httpContextAccessor?.HttpContext?.User
+            ?? throw new InvalidOperationException("Context user is not present");
 
-        public UserContext(IHttpContextAccessor httpContextAccessor)
+        if (user.Identity == null || !user.Identity.IsAuthenticated)
         {
-            _httpContextAccessor = httpContextAccessor;
+            throw new UserNotFoundException();
         }
 
-        public CurrentUser GetCurrentUser(bool managingRole)
+        if (managingRole && !IsInManagingRole(user))
         {
-            var user = _httpContextAccessor?.HttpContext?.User
-                ?? throw new InvalidOperationException("Context user is not present");
-
-            if (user.Identity == null || !user.Identity.IsAuthenticated)
-            {
-                throw new UserNotFoundException();
-            }
-
-            if (managingRole && !IsInManagingRole(user))
-            {
-                throw new UserNotInManagingRoleException();
-            }
-
-            return CreateUser(user);
+            throw new UserNotInManagingRoleException();
         }
 
-        public CurrentUser? GetCurrentUser()
-        {
-            var user = _httpContextAccessor?.HttpContext?.User;
+        return CreateUser(user);
+    }
 
-            if (user?.Identity == null || !user.Identity.IsAuthenticated)
-            {
-                return null;
-            }
+    public CurrentUser? GetCurrentUser()
+    {
+        var user = _httpContextAccessor?.HttpContext?.User;
 
-            return CreateUser(user);
-        }
+        return user?.Identity == null || !user.Identity.IsAuthenticated
+            ? null
+            : CreateUser(user);
+    }
 
-        private bool IsInManagingRole(ClaimsPrincipal user)
-        {
-            return user.IsInRole("Admin") || user.IsInRole("Owner");
-        }
+    private static bool IsInManagingRole(ClaimsPrincipal user)
+    {
+        return user.IsInRole("Admin") || user.IsInRole("Owner");
+    }
 
-        private static CurrentUser CreateUser(ClaimsPrincipal user)
-        {
-            var id = user.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)!.Value;
-            var name = user.FindFirst(c => c.Type == ClaimTypes.Name)!.Value;
-            var email = user.FindFirst(c => c.Type == ClaimTypes.Email)!.Value;
-            var roles = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value);
+    private static CurrentUser CreateUser(ClaimsPrincipal user)
+    {
+        var id = user.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)!.Value;
+        var name = user.FindFirst(c => c.Type == ClaimTypes.Name)!.Value;
+        var email = user.FindFirst(c => c.Type == ClaimTypes.Email)!.Value;
+        var roles = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value);
 
-            return new CurrentUser(id, name, email, roles);
-        }
+        return new(id, name, email, roles);
     }
 }

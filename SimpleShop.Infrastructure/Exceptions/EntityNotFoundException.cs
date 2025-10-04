@@ -1,10 +1,9 @@
-﻿namespace SimpleShop.Infrastructure.Exceptions
+﻿namespace SimpleShop.Infrastructure.Exceptions;
+
+public class EntityNotFoundException : Exception
 {
-    public class EntityNotFoundException : Exception
+    internal EntityNotFoundException(string message)
+        : base(message)
     {
-        internal EntityNotFoundException(string message)
-            : base(message)
-        { 
-        }
     }
 }

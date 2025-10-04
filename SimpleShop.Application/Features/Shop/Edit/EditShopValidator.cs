@@ -2,13 +2,12 @@
 using SimpleShop.Application.Features.Shop.Create;
 using SimpleShop.Domain.Repositories;
 
-namespace SimpleShop.Application.Features.Shop.Edit
+namespace SimpleShop.Application.Features.Shop.Edit;
+
+public class EditShopValidator: AbstractValidator<EditShopRequest>
 {
-    public class EditShopValidator: AbstractValidator<EditShopRequest>
+    public EditShopValidator(IShopRepository repository)
     {
-        public EditShopValidator(IShopRepository repository)
-        {
-            Include(new CreateShopValidator(repository));
-        }
+        Include(new CreateShopValidator(repository));
     }
 }

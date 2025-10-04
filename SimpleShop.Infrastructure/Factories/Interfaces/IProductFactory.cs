@@ -1,10 +1,9 @@
 ﻿using SimpleShop.Domain.Entities;
 using ProductDb = SimpleShop.Infrastructure.Models.Product;
 
-namespace SimpleShop.Infrastructure.Factories.Interfaces
+namespace SimpleShop.Infrastructure.Factories.Interfaces;
+
+internal interface IProductFactory
 {
-    internal interface IProductFactory
-    {
-        Product Create(ProductDb productDb);
-    }
+    Product Create(ProductDb productDb);
 }

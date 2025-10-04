@@ -1,10 +1,9 @@
-﻿namespace SimpleShop.Domain.Exceptions
+﻿namespace SimpleShop.Domain.Exceptions;
+
+internal class EmptyValueException : InvalidOperationException
 {
-    internal class EmptyValueException : InvalidOperationException
+    internal EmptyValueException(string valueName)
+        : base($"The value '{valueName}' cannot be null or empty.")
     {
-        internal EmptyValueException(string valueName)
-            : base($"The value '{valueName}' cannot be null or empty.")
-        {
-        }
     }
 }

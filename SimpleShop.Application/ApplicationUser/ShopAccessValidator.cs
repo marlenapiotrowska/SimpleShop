@@ -1,30 +1,29 @@
 ﻿using SimpleShop.Application.Exceptions;
 using ShopEntity = SimpleShop.Domain.Entities.Shop;
 
-namespace SimpleShop.Application.ApplicationUser
+namespace SimpleShop.Application.ApplicationUser;
+
+public interface IShopAccessValidator
 {
-    public interface IShopAccessValidator
+    void Validate(ShopEntity shop);
+}
+
+internal class ShopAccessValidator : IShopAccessValidator
+{
+    private readonly IUserContext _userContext;
+
+    public ShopAccessValidator(IUserContext userContext)
     {
-        void Validate(ShopEntity shop);
+        _userContext = userContext;
     }
 
-    internal class ShopAccessValidator : IShopAccessValidator
+    public void Validate(ShopEntity shop)
     {
-        private readonly IUserContext _userContext;
+        var currentUser = _userContext.GetCurrentUser(false);
 
-        public ShopAccessValidator(IUserContext userContext)
+        if (shop.UserCreatedId != currentUser.Id)
         {
-            _userContext = userContext;
-        }
-
-        public void Validate(ShopEntity shop)
-        {
-            var currentUser = _userContext.GetCurrentUser(false);
-
-            if (shop.UserCreatedId != currentUser.Id)
-            {
-                throw new ShopNotEditableException(shop.Name, currentUser.Name);
-            }
+            throw new ShopNotEditableException(shop.Name, currentUser.Name);
         }
     }
 }

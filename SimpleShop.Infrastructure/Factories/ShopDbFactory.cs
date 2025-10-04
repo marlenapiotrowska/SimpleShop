@@ -2,20 +2,19 @@
 using SimpleShop.Infrastructure.Factories.Interfaces;
 using ShopDb = SimpleShop.Infrastructure.Models.Shop;
 
-namespace SimpleShop.Infrastructure.Factories
+namespace SimpleShop.Infrastructure.Factories;
+
+internal class ShopDbFactory : IShopDbFactory
 {
-    internal class ShopDbFactory : IShopDbFactory
+    public ShopDb Create(Shop shop)
     {
-        public ShopDb Create(Shop shop)
+        return new()
         {
-            return new ShopDb
-            {
-                Id = shop.Id,
-                Name = shop.Name,
-                Description = shop.Description,
-                DateCreated = shop.DateCreated,
-                UserCreatedId = shop.UserCreatedId
-            };
-        }
+            Id = shop.Id,
+            Name = shop.Name,
+            Description = shop.Description,
+            DateCreated = shop.DateCreated,
+            UserCreatedId = shop.UserCreatedId
+        };
     }
 }

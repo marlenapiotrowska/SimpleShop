@@ -1,9 +1,8 @@
 ﻿using SimpleShop.Application.Features.Product.Create;
 
-namespace SimpleShop.Application.Features.Product.Edit
+namespace SimpleShop.Application.Features.Product.Edit;
+
+public class EditProductRequest : CreateProductRequest
 {
-    public class EditProductRequest : CreateProductRequest
-    {
-        public Guid Id { get; set; }
-    }
+    public Guid Id { get; set; }
 }

@@ -1,12 +1,11 @@
 ﻿using SimpleShop.Domain.Entities;
-using ShopProductDb = SimpleShop.Infrastructure.Models.ProductShop;
 using ProductDb = SimpleShop.Infrastructure.Models.Product;
+using ShopProductDb = SimpleShop.Infrastructure.Models.ProductShop;
 
-namespace SimpleShop.Infrastructure.Factories.Interfaces
+namespace SimpleShop.Infrastructure.Factories.Interfaces;
+
+internal interface IShopProductFactory
 {
-    internal interface IShopProductFactory
-    {
-        ShopProduct Create(ShopProductDb shopProduct);
-        ShopProduct CreateNew(ProductDb product, Guid shopId, string userCreatedId);
-    }
+    ShopProduct Create(ShopProductDb shopProduct);
+    ShopProduct CreateNew(ProductDb product, Guid shopId, string userCreatedId);
 }

@@ -2,18 +2,17 @@
 using SimpleShop.Application.Features.Product.Delete;
 using SimpleShop.MVC.Factories.Interfaces;
 
-namespace SimpleShop.MVC.Factories
+namespace SimpleShop.MVC.Factories;
+
+internal class DeleteProductCommandFactory : IDeleteProductCommandFactory
 {
-    internal class DeleteProductCommandFactory : IDeleteProductCommandFactory
+    public DeleteProductRequest Create(ProductDto product)
     {
-        public DeleteProductRequest Create(ProductDto product)
+        return new()
         {
-            return new DeleteProductRequest
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
-            };
-        }
+            Id = product.Id,
+            Name = product.Name,
+            Description = product.Description
+        };
     }
 }
