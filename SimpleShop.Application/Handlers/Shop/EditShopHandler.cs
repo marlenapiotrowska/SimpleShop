@@ -1,7 +1,6 @@
 ﻿using ErrorOr;
 using SimpleShop.Application.Abstractions;
 using SimpleShop.Application.ApplicationUser;
-using SimpleShop.Application.Factories.Interfaces;
 using SimpleShop.Application.Features.Shop.Edit;
 using SimpleShop.Domain.Repositories;
 using ShopProductEntity = SimpleShop.Domain.Entities.ShopProduct;
@@ -16,8 +15,7 @@ public interface IEditShopHandler : IHandler
 internal class EditShopHandler(
     IShopAccessValidator accessValidator,
     IShopRepository shopRepository,
-    IShopProductRepository shopProductsRepository,
-    IShopProductFactory shopProductFactory)
+    IShopProductRepository shopProductsRepository)
     : IEditShopHandler
 {
     public async Task<ErrorOr<Success>> HandleAsync(EditShopRequest request, CancellationToken cancellationToken)
@@ -59,6 +57,12 @@ internal class EditShopHandler(
     {
         return request.AssignedShopProducts
             .Where(assigned => !productsAssigned.Any(p => p.Id == assigned.Id))
-            .Select(product => shopProductFactory.CreateNew(product, userId));
+            .Select(product => ShopProductEntity.Create(
+                product.ProductId,
+                product.ShopId,
+                product.Name,
+                product.Description,
+                product.Price,
+                userId));
     }
 }

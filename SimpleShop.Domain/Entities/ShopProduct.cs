@@ -35,6 +35,11 @@ public class ShopProduct
     public DateTime DateCreated { get; }
     public string UserCreatedId { get; }
 
+    public static ShopProduct Create(Guid productId, Guid shopId, string name, string description, decimal price, string userCreatedId)
+    {
+        return new(productId, shopId, name, description, price, userCreatedId);
+    }
+
     public void UpdatePrice(decimal price)
     {
         Price = price;

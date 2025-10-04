@@ -1,6 +1,5 @@
 ﻿using SimpleShop.Application.Abstractions;
 using SimpleShop.Application.ApplicationUser;
-using SimpleShop.Application.Factories.Interfaces;
 using SimpleShop.Application.Features.Product;
 using SimpleShop.Domain.Repositories;
 

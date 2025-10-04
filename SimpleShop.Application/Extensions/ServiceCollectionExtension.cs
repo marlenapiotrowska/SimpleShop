@@ -3,8 +3,6 @@ using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 using SimpleShop.Application.Abstractions;
 using SimpleShop.Application.ApplicationUser;
-using SimpleShop.Application.Factories;
-using SimpleShop.Application.Factories.Interfaces;
 using SimpleShop.Application.Features.Product.Create;
 using SimpleShop.Application.Features.Shop.Create;
 using SimpleShop.Application.Handlers;
@@ -21,7 +19,6 @@ public static class ServiceCollectionExtension
         services.AddScoped<IUserContext, UserContext>();
         services.AddScoped<IShopAccessValidator, ShopAccessValidator>();
         services.AddScoped<IProductAccessValidator, ProductAccessValidator>();
-        services.AddTransient<IShopProductFactory, ShopProductFactory>();
 
         services.AddValidatorsFromAssemblyContaining<CreateShopValidator>()
             .AddFluentValidationAutoValidation()
