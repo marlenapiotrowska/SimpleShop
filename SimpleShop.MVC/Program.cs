@@ -15,8 +15,6 @@ builder.Services.AddScoped<IEditShopCommandFactory, EditShopCommandFactory>();
 builder.Services.AddScoped<IDeleteShopCommandFactory, DeleteShopCommandFactory>();
 builder.Services.AddScoped<IDeleteProductCommandFactory, DeleteProductCommandFactory>();
 builder.Services.AddScoped<IEditProductCommandFactory, EditProductCommandFactory>();
-builder.Services.AddTransient<UserNotFoundMiddleware>();
-builder.Services.AddTransient<UserNotInManagingRoleMiddleware>();
 builder.Services.AddTransient<ErrorHandlingMiddleware>();
 
 builder.Services.ConfigureApplicationCookie(options =>
@@ -33,8 +31,6 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseMiddleware<UserNotFoundMiddleware>();
-app.UseMiddleware<UserNotInManagingRoleMiddleware>();
 app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.UseHttpsRedirection();

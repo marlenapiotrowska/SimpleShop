@@ -1,4 +1,5 @@
-﻿using SimpleShop.Infrastructure.Exceptions;
+﻿using SimpleShop.Application.Exceptions;
+using SimpleShop.Infrastructure.Exceptions;
 
 namespace SimpleShop.MVC.Middlewares;
 
@@ -15,14 +16,20 @@ public class ErrorHandlingMiddleware : IMiddleware
             switch (ex)
             {
                 case EntityNotFoundException:
-                    context.Response.StatusCode = 404;
-                    await context.Response.WriteAsync(ex.Message);
+                    context.Response.StatusCode = StatusCodes.Status404NotFound;
                     context.Response.Redirect("/Shared/Error");
-                    break;
-
+                    return;
+                case UserNotFoundException:
+                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                    context.Response.Redirect("/Identity/Account/Login");
+                    return;
+                case UserNotInManagingRoleException:
+                    context.Response.StatusCode = StatusCodes.Status403Forbidden;
+                    context.Response.Redirect("/Home/AccessDenied");
+                    return;
                 default:
                     context.Response.Redirect($"/Home/Error?message={ex.Message}");
-                    break;
+                    return;
             }
         }
     }
