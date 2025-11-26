@@ -104,15 +104,17 @@ public class ProductController : Controller
     [Authorize]
     public async Task<IActionResult> Delete(DeleteProductRequest request, CancellationToken cancellationToken)
     {
-        var result = await _deleteHandler.HandleAsync(request, cancellationToken);
-
-        if (result.IsError)
+        try
         {
-            this.SetNotification("error", result.FirstError.Code);
+            await _deleteHandler.HandleAsync(request, cancellationToken);
+
+            this.SetNotification("success", $"Deleted product: {request.Name}({request.Description})");
             return RedirectToAction(nameof(Index));
         }
-
-        this.SetNotification("success", $"Deleted product: {request.Name}({request.Description})");
-        return RedirectToAction(nameof(Index));
+        catch (Exception exception)
+        {
+            this.SetNotification("error", exception.Message);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

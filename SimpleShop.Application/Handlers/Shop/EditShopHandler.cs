@@ -1,5 +1,4 @@
-﻿using ErrorOr;
-using SimpleShop.Application.Abstractions;
+﻿using SimpleShop.Application.Abstractions;
 using SimpleShop.Application.ApplicationUser;
 using SimpleShop.Application.Features.Shop.Edit;
 using SimpleShop.Domain.Repositories;
@@ -9,7 +8,7 @@ namespace SimpleShop.Application.Handlers.Shop;
 
 public interface IEditShopHandler : IHandler
 {
-    Task<ErrorOr<Success>> HandleAsync(EditShopRequest request, CancellationToken cancellationToken);
+    Task HandleAsync(EditShopRequest request, CancellationToken cancellationToken);
 }
 
 internal class EditShopHandler(
@@ -18,7 +17,7 @@ internal class EditShopHandler(
     IShopProductRepository shopProductsRepository)
     : IEditShopHandler
 {
-    public async Task<ErrorOr<Success>> HandleAsync(EditShopRequest request, CancellationToken cancellationToken)
+    public async Task HandleAsync(EditShopRequest request, CancellationToken cancellationToken)
     {
         var shop = await shopRepository.GetByIdAsync(request.Id);
         accessValidator.Validate(shop);
@@ -35,8 +34,6 @@ internal class EditShopHandler(
 
         await shopRepository.UpdateAsync(shop);
         await shopRepository.SaveChangesAsync();
-
-        return Result.Success;
     }
 
     private Dictionary<Guid, decimal> GetProductsToUpdate(EditShopRequest request, IEnumerable<ShopProductEntity> productsAssigned)

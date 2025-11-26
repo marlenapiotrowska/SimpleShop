@@ -1,5 +1,4 @@
-﻿using ErrorOr;
-using SimpleShop.Application.Abstractions;
+﻿using SimpleShop.Application.Abstractions;
 using SimpleShop.Application.ApplicationUser;
 using SimpleShop.Application.Features.Shop.Create;
 using SimpleShop.Domain.Repositories;
@@ -9,7 +8,7 @@ namespace SimpleShop.Application.Handlers.Shop;
 
 public interface ICreateShopHandler : IHandler
 {
-    Task<ErrorOr<Success>> HandleAsync(CreateShopRequest request, CancellationToken cancellationToken);
+    Task HandleAsync(CreateShopRequest request, CancellationToken cancellationToken);
 }
 
 internal class CreateShopHandler(
@@ -17,13 +16,11 @@ internal class CreateShopHandler(
     IUserContext userContext)
     : ICreateShopHandler
 {
-    public async Task<ErrorOr<Success>> HandleAsync(CreateShopRequest request, CancellationToken cancellationToken)
+    public async Task HandleAsync(CreateShopRequest request, CancellationToken cancellationToken)
     {
         var currentUser = userContext.GetCurrentUser(true);
 
         var shop = ShopModel.Create(request.Id, request.Name, request.Description, currentUser.Id);
         await repository.AddAsync(shop);
-
-        return Result.Success;
     }
 }

@@ -1,5 +1,4 @@
-﻿using ErrorOr;
-using SimpleShop.Application.Abstractions;
+﻿using SimpleShop.Application.Abstractions;
 using SimpleShop.Application.ApplicationUser;
 using SimpleShop.Application.Features.Product.Edit;
 using SimpleShop.Domain.Repositories;
@@ -8,7 +7,7 @@ namespace SimpleShop.Application.Handlers.Product;
 
 public interface IEditProductHandler : IHandler
 {
-    Task<ErrorOr<Success>> HandleAsync(EditProductRequest request, CancellationToken cancellationToken);
+    Task HandleAsync(EditProductRequest request, CancellationToken cancellationToken);
 }
 
 internal class EditProductHandler(
@@ -16,7 +15,7 @@ internal class EditProductHandler(
     IProductRepository repository)
     : IEditProductHandler
 {
-    public async Task<ErrorOr<Success>> HandleAsync(EditProductRequest request, CancellationToken cancellationToken)
+    public async Task HandleAsync(EditProductRequest request, CancellationToken cancellationToken)
     {
         accessValidator.Validate();
 
@@ -26,7 +25,5 @@ internal class EditProductHandler(
         product.UpdateDescription(request.Description);
 
         await repository.UpdateProductAsync(product);
-
-        return Result.Success;
     }
 }
